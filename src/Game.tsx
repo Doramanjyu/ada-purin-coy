@@ -177,7 +177,7 @@ class GameContext {
       const last = this.gameData.purins.at(-1)
       if (last) {
         last.points.push(p)
-        console.debug(last.points)
+        console.info(last.points)
       }
       return
     }
@@ -191,7 +191,7 @@ class GameContext {
       }
       this.render()
     } else if (!this.found[found]) {
-      console.debug('clicked', found)
+      console.debug('found', found)
       this.found[found] = true
 
       this.page.setGwej(p[0] < 960 ? GwejState.Right : GwejState.Left)

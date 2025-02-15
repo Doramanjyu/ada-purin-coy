@@ -12,7 +12,6 @@ export class Polygon {
   }
 
   isInside(p: Point): boolean {
-    console.log('check', this)
     const closed = [...this.points, this.points[0]]
     let cnt = 0
     for (let i = 0; i < closed.length - 1; i++) {
