@@ -31,3 +31,4 @@ const Title = () => {
 }
 
 export default Title
+export const preloads: string[] = []

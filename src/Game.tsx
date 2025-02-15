@@ -265,3 +265,4 @@ const Game = () => {
 }
 
 export default Game
+export const preloads: string[] = [lifeUrl]

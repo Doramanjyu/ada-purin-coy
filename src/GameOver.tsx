@@ -39,3 +39,4 @@ const GameOver = () => {
 }
 
 export default GameOver
+export const preloads: string[] = [gameoverUrl]

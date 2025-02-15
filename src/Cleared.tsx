@@ -34,3 +34,4 @@ const Cleared = () => {
 }
 
 export default Cleared
+export const preloads: string[] = [clearedUrl]

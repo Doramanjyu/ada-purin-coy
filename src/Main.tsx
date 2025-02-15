@@ -1,14 +1,28 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
-import Title from './Title'
-import GameOver from './GameOver'
-import Cleared from './Cleared'
-import Game from './Game'
-import Gwej from './Gwej'
+import Title, { preloads as preloadsTitle } from './Title'
+import GameOver, { preloads as preloadsGameOver } from './GameOver'
+import Cleared, { preloads as preloadsCleared } from './Cleared'
+import Game, { preloads as preloadsGame } from './Game'
+import Gwej, { preloads as preloadsGwej } from './Gwej'
 import { StateContextProvider, StateContext, PageState } from './state'
 
 const Contents = () => {
   const ctx = useContext(StateContext)
+  useEffect(() => {
+    const preloads = ([] as string[]).concat(
+      preloadsTitle,
+      preloadsGameOver,
+      preloadsCleared,
+      preloadsGame,
+      preloadsGwej,
+    )
+    preloads.forEach(async (url) => {
+      console.debug('preload', url)
+      const img = new Image()
+      img.src = url
+    })
+  }, [])
   switch (ctx?.page) {
     case PageState.Title:
       return <Title />

@@ -43,3 +43,4 @@ const Gwej = () => {
 }
 
 export default Gwej
+export const preloads: string[] = [gwejUrl]
