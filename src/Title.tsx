@@ -10,7 +10,6 @@ const Title = () => {
   return (
     <div
       style={{
-        textAlign: 'center',
         maxWidth: '100%',
         maxHeight: '100%',
         aspectRatio: '16 / 9',
@@ -22,7 +21,8 @@ const Title = () => {
         src={titleUrl}
         style={{
           width: '100%',
-          marginTop: '30%',
+          position: 'absolute',
+          top: '50%',
         }}
         className="titleAnime"
       />

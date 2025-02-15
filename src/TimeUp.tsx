@@ -1,0 +1,41 @@
+import React, { useContext } from 'react'
+
+import timeupUrl from './timeup.png'
+
+import { StateContext, PageState } from './state'
+
+const TimeUp = () => {
+  const ctx = useContext(StateContext)
+  const onClick = () => ctx.setPage(PageState.Title)
+  const onLoad = (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.currentTarget
+    setTimeout(() => (target.style.opacity = '1'), 100)
+  }
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        overflow: 'hidden',
+        backgroundColor: 'black',
+        opacity: 0,
+        transitionProperty: 'opacity',
+        transitionDuration: '2s',
+      }}
+      onClick={onClick}
+      onLoad={onLoad}
+    >
+      <img
+        src={timeupUrl}
+        style={{
+          width: '100%',
+          position: 'absolute',
+          top: '20%',
+        }}
+        className="titleAnime"
+      />
+    </div>
+  )
+}
+
+export default TimeUp

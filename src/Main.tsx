@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 
 import Title from './Title'
+import TimeUp from './TimeUp'
 import Game from './Game'
 import Gwej from './Gwej'
 import { StateContextProvider, StateContext, PageState } from './state'
@@ -16,20 +17,7 @@ const Contents = () => {
       return (
         <>
           <Game />
-          {ctx.page === PageState.GameOver && (
-            <h1
-              style={{
-                position: 'absolute',
-                inset: 0,
-                textAlign: 'center',
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                color: 'white',
-                paddingTop: '10%',
-              }}
-            >
-              Game Over
-            </h1>
-          )}
+          {ctx.page === PageState.GameOver && <TimeUp />}
           {ctx.page === PageState.GameClear && (
             <h1
               style={{
