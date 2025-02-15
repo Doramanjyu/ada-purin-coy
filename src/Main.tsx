@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
 import Title from './Title'
-import TimeUp from './TimeUp'
+import GameOver from './GameOver'
 import Cleared from './Cleared'
 import Game from './Game'
 import Gwej from './Gwej'
@@ -18,7 +18,7 @@ const Contents = () => {
       return (
         <>
           <Game />
-          {ctx.page === PageState.GameOver && <TimeUp />}
+          {ctx.page === PageState.GameOver && <GameOver />}
           {ctx.page === PageState.GameClear && <Cleared />}
         </>
       )

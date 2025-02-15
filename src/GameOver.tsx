@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 
-import timeupUrl from './timeup.png'
+import gameoverUrl from './gameover.png'
 
 import { StateContext, PageState } from './state'
 
-const TimeUp = () => {
+const GameOver = () => {
   const ctx = useContext(StateContext)
   const onClick = () => ctx.setPage(PageState.Title)
   const onLoad = (e: React.UIEvent<HTMLDivElement>) => {
@@ -26,7 +26,7 @@ const TimeUp = () => {
       onLoad={onLoad}
     >
       <img
-        src={timeupUrl}
+        src={gameoverUrl}
         style={{
           width: '100%',
           position: 'absolute',
@@ -38,4 +38,4 @@ const TimeUp = () => {
   )
 }
 
-export default TimeUp
+export default GameOver
