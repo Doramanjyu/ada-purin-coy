@@ -173,7 +173,7 @@ class GameContext {
           return
         }
         this.page.setGwej(GwejState.None)
-      }, 200)
+      }, 400)
 
       this.render()
 
