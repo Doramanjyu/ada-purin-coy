@@ -30,6 +30,9 @@ class GameContext {
       if (!this.page) {
         throw new Error('updatePage must be called')
       }
+      if (this.finished) {
+        return
+      }
       this.finished = true
       this.page.setPage(PageState.GameOver)
     }, gameData.timeLimit)
