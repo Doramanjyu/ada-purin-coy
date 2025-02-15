@@ -2,11 +2,10 @@ import React, { useContext } from 'react'
 
 import gwejUrl from './gwej.png'
 
-import { StateContext, PageState } from './state'
+import { StateContext } from './state'
 
 const Gwej = () => {
   const ctx = useContext(StateContext)
-  const onClick = () => ctx.setPage(PageState.Game)
   return (
     <img
       src={gwejUrl}
