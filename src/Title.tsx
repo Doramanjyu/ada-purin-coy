@@ -22,7 +22,7 @@ const Title = () => {
         src={titleUrl}
         style={{
           width: '100%',
-          marginTop: '35vh',
+          marginTop: '30%',
         }}
         className="titleAnime"
       />
