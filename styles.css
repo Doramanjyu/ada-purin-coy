@@ -46,7 +46,7 @@ body {
   animation-fill-mode: forwards;
 }
 
-@keyframes gwejAnime {
+@keyframes gwejAnimeRight {
   0% {
     transform: scale(1);
   }
@@ -58,8 +58,28 @@ body {
   }
 }
 
-.gwejAnime {
-  animation-name: gwejAnime;
+.gwejAnimeRight {
+  animation-name: gwejAnimeRight;
+  animation-duration: 0.1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+}
+
+@keyframes gwejAnimeLeft {
+  0% {
+    transform: scale(-1, 1);
+  }
+  50% {
+    transform: scale(-0.95, 0.95);
+  }
+  100% {
+    transform: scale(-1, 1);
+  }
+}
+
+.gwejAnimeLeft {
+  animation-name: gwejAnimeLeft;
   animation-duration: 0.1s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
