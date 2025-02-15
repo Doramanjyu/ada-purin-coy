@@ -28,4 +28,10 @@ export class Polygon {
     }
     return cnt % 2 == 1
   }
+
+  draw(cctx: CanvasRenderingContext2D) {
+    this.points.forEach((p) => {
+      cctx.lineTo(p[0], p[1])
+    })
+  }
 }

@@ -1,14 +1,17 @@
 import { Polygon } from './polygon'
 
 import imageUrl1 from './adapurincoy1.png'
+import answerUrl1 from './adapurincoy1.answer.png'
 
 export type GameData = {
   imageUrl: string
+  answerUrl: string
   purins: Polygon[]
 }
 
 export const gameData1: GameData = {
   imageUrl: imageUrl1,
+  answerUrl: answerUrl1,
   purins: [
     new Polygon([
       [148, 0],

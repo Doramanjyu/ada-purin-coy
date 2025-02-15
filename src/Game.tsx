@@ -9,6 +9,7 @@ class GameContext {
   readonly cctx: CanvasRenderingContext2D
   readonly timer: ReturnType<typeof setInterval>
   readonly stageImage: HTMLImageElement
+  readonly answerImage: HTMLImageElement
   readonly debug: boolean
   readonly gameData: GameData
   page?: State
@@ -21,12 +22,28 @@ class GameContext {
     this.gameData = gameData
     this.found = new Array<boolean>(this.gameData.purins.length).fill(false)
 
-    this.stageImage = new Image()
-    this.stageImage.src = gameData.imageUrl
-    this.stageImage.onload = () => {
+    let loadedStage = false
+    let loadedAnswer = false
+    const loaded = () => {
+      if (!loadedStage || !loadedAnswer) {
+        return
+      }
       this.render()
       canvas.style.opacity = '1'
       canvas.style.pointerEvents = 'auto'
+    }
+
+    this.stageImage = new Image()
+    this.stageImage.src = gameData.imageUrl
+    this.stageImage.onload = () => {
+      loadedStage = true
+      loaded()
+    }
+    this.answerImage = new Image()
+    this.answerImage.src = gameData.answerUrl
+    this.answerImage.onload = () => {
+      loadedAnswer = true
+      loaded()
     }
 
     const p = new URLSearchParams(window.location.search)
@@ -52,15 +69,25 @@ class GameContext {
       this.cctx.globalAlpha = 0.5
       this.cctx.lineWidth = 3
       this.cctx.strokeStyle = 'red'
-      this.gameData.purins.forEach((poly) => {
+      this.gameData.purins.forEach((purin) => {
         this.cctx.beginPath()
-        poly.points.forEach((p) => {
-          this.cctx.lineTo(p[0], p[1])
-        })
+        purin.draw(this.cctx)
         this.cctx.closePath()
         this.cctx.stroke()
       })
     }
+    this.gameData.purins.forEach((purin, i) => {
+      if (!this.found[i]) {
+        return
+      }
+      this.cctx.beginPath()
+      purin.draw(this.cctx)
+      this.cctx.closePath()
+      this.cctx.save()
+      this.cctx.clip()
+      this.cctx.drawImage(this.answerImage, 0, 0)
+      this.cctx.restore()
+    })
   }
 
   tick() {
