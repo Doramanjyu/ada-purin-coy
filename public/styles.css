@@ -17,6 +17,7 @@ body {
   max-height: 100%;
   object-fit: contain;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 @keyframes titleAnime {
@@ -40,6 +41,26 @@ body {
 .titleAnime {
   animation-name: titleAnime;
   animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+}
+
+@keyframes gwejAnime {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.gwejAnime {
+  animation-name: gwejAnime;
+  animation-duration: 0.1s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-fill-mode: forwards;

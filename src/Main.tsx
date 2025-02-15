@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
 
 import Title from './Title'
+import Game from './Game'
+import Gwej from './Gwej'
 import { StateContextProvider, StateContext, PageState } from './state'
 
 const Contents = () => {
@@ -9,7 +11,7 @@ const Contents = () => {
     case PageState.Title:
       return <Title />
     case PageState.Game:
-      return <>Game</>
+      return <Game />
     default:
       return <>ERROR</>
   }
@@ -17,7 +19,19 @@ const Contents = () => {
 
 const Main = () => (
   <StateContextProvider>
-    <Contents />
+    <div
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        maxWidth: '100%',
+        maxHeight: '100%',
+        aspectRatio: '16 / 9',
+        objectFit: 'contain',
+      }}
+    >
+      <Contents />
+      <Gwej />
+    </div>
   </StateContextProvider>
 )
 
