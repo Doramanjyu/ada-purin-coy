@@ -23,4 +23,14 @@ export default [
   {
     ignores: ['node_modules/**', 'out/**'],
   },
+  {
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          varsIgnorePattern: 'React',
+        },
+      ],
+    },
+  },
 ]
