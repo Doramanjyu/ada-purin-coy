@@ -3,6 +3,8 @@ import React, { createContext, useState } from 'react'
 export enum PageState {
   Title = 0,
   Game = 1,
+  GameOver = 2,
+  GameClear = 3,
 }
 
 export enum GwejState {

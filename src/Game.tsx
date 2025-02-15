@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useContext } from 'react'
 
-import { StateContext, State, GwejState } from './state'
+import { StateContext, State, GwejState, PageState } from './state'
 import { Polygon } from './polygon'
 import { GameData, gameData1 } from './gameData'
 
@@ -12,8 +12,10 @@ class GameContext {
   readonly answerImage: HTMLImageElement
   readonly debug: boolean
   readonly gameData: GameData
+  readonly deadline: number
   page?: State
   found: boolean[]
+  finished: boolean
 
   constructor(canvas: HTMLCanvasElement, gameData: GameData) {
     this.canvas = canvas
@@ -21,6 +23,8 @@ class GameContext {
     this.timer = setInterval(this.tick.bind(this), 1000)
     this.gameData = gameData
     this.found = new Array<boolean>(this.gameData.purins.length).fill(false)
+    this.deadline = Date.now() + gameData.timeLimit
+    this.finished = false
 
     let loadedStage = false
     let loadedAnswer = false
@@ -66,6 +70,7 @@ class GameContext {
     this.cctx.drawImage(this.stageImage, 0, 0)
 
     if (this.debug) {
+      this.cctx.save()
       this.cctx.globalAlpha = 0.5
       this.cctx.lineWidth = 3
       this.cctx.strokeStyle = 'red'
@@ -75,6 +80,7 @@ class GameContext {
         this.cctx.closePath()
         this.cctx.stroke()
       })
+      this.cctx.restore()
     }
     this.gameData.purins.forEach((purin, i) => {
       if (!this.found[i]) {
@@ -88,14 +94,43 @@ class GameContext {
       this.cctx.drawImage(this.answerImage, 0, 0)
       this.cctx.restore()
     })
+
+    if (!this.finished) {
+      const tRemainRatio =
+        Math.round(
+          100 *
+            Math.max(
+              0,
+              Math.min(
+                1,
+                (this.deadline - Date.now()) / this.gameData.timeLimit,
+              ),
+            ),
+        ) / 100
+      this.cctx.save()
+      this.cctx.globalAlpha = 0.25
+      this.cctx.fillStyle = 'red'
+      this.cctx.fillRect(0, 1060, 1920 * tRemainRatio, 10)
+      this.cctx.restore()
+    }
   }
 
   tick() {
+    if (!this.page) {
+      return
+    }
     this.render()
+    if (this.deadline < Date.now()) {
+      this.finished = true
+      this.page.setPage(PageState.GameOver)
+    }
   }
 
   onMouseDown(e: React.MouseEvent) {
     if (!this.page) {
+      return
+    }
+    if (this.finished) {
       return
     }
     const p = [
@@ -137,6 +172,11 @@ class GameContext {
       }, 200)
 
       this.render()
+
+      if (this.found.every((b) => b)) {
+        this.finished = true
+        this.page.setPage(PageState.GameClear)
+      }
     }
   }
 }

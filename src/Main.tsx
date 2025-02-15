@@ -11,7 +11,40 @@ const Contents = () => {
     case PageState.Title:
       return <Title />
     case PageState.Game:
-      return <Game />
+    case PageState.GameOver:
+    case PageState.GameClear:
+      return (
+        <>
+          <Game />
+          {ctx.page === PageState.GameOver && (
+            <h1
+              style={{
+                position: 'absolute',
+                inset: 0,
+                textAlign: 'center',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                color: 'white',
+                paddingTop: '10%',
+              }}
+            >
+              Game Over
+            </h1>
+          )}
+          {ctx.page === PageState.GameClear && (
+            <h1
+              style={{
+                position: 'absolute',
+                inset: 0,
+                textAlign: 'center',
+                color: 'green',
+                paddingTop: '10%',
+              }}
+            >
+              Cleared
+            </h1>
+          )}
+        </>
+      )
     default:
       return <>ERROR</>
   }

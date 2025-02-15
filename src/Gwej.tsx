@@ -6,7 +6,6 @@ import { StateContext, GwejState } from './state'
 
 const Gwej = () => {
   const state = useContext(StateContext)
-  console.log(state.gwej === GwejState.Right, state.gwej === GwejState.Left)
   return (
     <>
       <img
