@@ -26,6 +26,11 @@ class GameContext {
     this.deadline = Date.now() + gameData.timeLimit
     this.finished = false
 
+    setTimeout(() => {
+      this.finished = true
+      this.page.setPage(PageState.GameOver)
+    }, gameData.timeLimit)
+
     let loadedStage = false
     let loadedAnswer = false
     const loaded = () => {
@@ -120,10 +125,6 @@ class GameContext {
       return
     }
     this.render()
-    if (this.deadline < Date.now()) {
-      this.finished = true
-      this.page.setPage(PageState.GameOver)
-    }
   }
 
   onMouseDown(e: React.MouseEvent) {
