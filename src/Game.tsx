@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useContext } from 'react'
 
-import { StateContext, State } from './state'
+import { StateContext, State, GwejState } from './state'
 import { Polygon } from './polygon'
 import { GameData, gameData1 } from './gameData'
 
@@ -18,7 +18,7 @@ class GameContext {
   constructor(canvas: HTMLCanvasElement, gameData: GameData) {
     this.canvas = canvas
     this.cctx = canvas.getContext('2d') as CanvasRenderingContext2D
-    this.timer = setInterval(this.tick.bind(this), 500)
+    this.timer = setInterval(this.tick.bind(this), 1000)
     this.gameData = gameData
     this.found = new Array<boolean>(this.gameData.purins.length).fill(false)
 
@@ -128,13 +128,15 @@ class GameContext {
       console.debug(found)
       this.found[found] = true
 
-      this.page.setGwej(true)
+      this.page.setGwej(p[0] < 960 ? GwejState.Right : GwejState.Left)
       setTimeout(() => {
         if (!this.page) {
           return
         }
-        this.page.setGwej(false)
+        this.page.setGwej(GwejState.None)
       }, 200)
+
+      this.render()
     }
   }
 }

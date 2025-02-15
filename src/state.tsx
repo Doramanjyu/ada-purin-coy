@@ -5,17 +5,23 @@ export enum PageState {
   Game = 1,
 }
 
+export enum GwejState {
+  None = 0,
+  Left = 1,
+  Right = 2,
+}
+
 export type State = {
   page: PageState
   setPage: (state: PageState) => void
-  gwej: boolean
-  setGwej: (show: boolean) => void
+  gwej: GwejState
+  setGwej: (state: GwejState) => void
 }
 
 export const StateContext = createContext<State>({
   page: PageState.Title,
   setPage: () => {},
-  gwej: false,
+  gwej: GwejState.None,
   setGwej: () => {},
 })
 
@@ -25,7 +31,7 @@ type Props = {
 
 export const StateContextProvider = ({ children }: Props) => {
   const [page, setPage] = useState(PageState.Title)
-  const [gwej, setGwej] = useState(false)
+  const [gwej, setGwej] = useState(GwejState.None)
 
   return (
     <StateContext.Provider

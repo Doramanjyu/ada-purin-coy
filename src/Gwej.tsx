@@ -2,23 +2,38 @@ import React, { useContext } from 'react'
 
 import gwejUrl from './gwej.png'
 
-import { StateContext } from './state'
+import { StateContext, GwejState } from './state'
 
 const Gwej = () => {
-  const ctx = useContext(StateContext)
+  const state = useContext(StateContext)
+  console.log(state.gwej === GwejState.Right, state.gwej === GwejState.Left)
   return (
-    <img
-      src={gwejUrl}
-      style={{
-        display: ctx.gwej ? 'block' : 'none',
-        position: 'absolute',
-        height: '90%',
-        bottom: '-20%',
-        right: '-5%',
-        pointerEvents: 'none',
-      }}
-      className="gwejAnime"
-    />
+    <>
+      <img
+        src={gwejUrl}
+        style={{
+          display: state.gwej === GwejState.Right ? 'block' : 'none',
+          position: 'absolute',
+          height: '90%',
+          bottom: '-20%',
+          right: '-5%',
+          pointerEvents: 'none',
+        }}
+        className="gwejAnimeRight"
+      />
+      <img
+        src={gwejUrl}
+        style={{
+          display: state.gwej === GwejState.Left ? 'block' : 'none',
+          position: 'absolute',
+          height: '90%',
+          bottom: '-20%',
+          left: '-5%',
+          pointerEvents: 'none',
+        }}
+        className="gwejAnimeLeft"
+      />
+    </>
   )
 }
 
