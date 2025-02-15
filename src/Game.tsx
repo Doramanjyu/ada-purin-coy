@@ -156,15 +156,16 @@ class GameContext {
     if (this.finished) {
       return
     }
+    console.log(
+      this.canvas.width,
+      e.clientX,
+      this.canvas.offsetLeft,
+      this.canvas.clientWidth,
+    )
+    const rect = this.canvas.getBoundingClientRect()
     const p = [
-      Math.round(
-        (this.canvas.width * (e.clientX - this.canvas.offsetLeft)) /
-          this.canvas.offsetWidth,
-      ),
-      Math.round(
-        (this.canvas.height * (e.clientY - this.canvas.offsetTop)) /
-          this.canvas.offsetHeight,
-      ),
+      Math.round((this.canvas.width * (e.clientX - rect.x)) / rect.width),
+      Math.round((this.canvas.height * (e.clientY - rect.y)) / rect.height),
     ]
     console.debug('mouse down', p)
 
@@ -250,11 +251,10 @@ const Game = () => {
       height="1080"
       ref={canvasRef}
       style={{
-        maxWidth: '100%',
-        maxHeight: '100%',
-        aspectRatio: '16 / 9',
-        objectFit: 'contain',
+        position: 'absolute',
+        inset: 0,
         opacity: 0,
+        width: '100%',
         transitionProperty: 'opacity',
         transitionDuration: '0.5s',
         pointerEvents: 'none',
