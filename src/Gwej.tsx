@@ -11,7 +11,10 @@ const Gwej = () => {
       <img
         src={gwejUrl}
         style={{
-          display: state.gwej === GwejState.Right ? 'block' : 'none',
+          display:
+            state.gwej === GwejState.Right || state.gwej === GwejState.Both
+              ? 'block'
+              : 'none',
           position: 'absolute',
           height: '90%',
           bottom: '-20%',
@@ -23,7 +26,10 @@ const Gwej = () => {
       <img
         src={gwejUrl}
         style={{
-          display: state.gwej === GwejState.Left ? 'block' : 'none',
+          display:
+            state.gwej === GwejState.Left || state.gwej === GwejState.Both
+              ? 'block'
+              : 'none',
           position: 'absolute',
           height: '90%',
           bottom: '-20%',

@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 
 import Title from './Title'
 import TimeUp from './TimeUp'
+import Cleared from './Cleared'
 import Game from './Game'
 import Gwej from './Gwej'
 import { StateContextProvider, StateContext, PageState } from './state'
@@ -18,19 +19,7 @@ const Contents = () => {
         <>
           <Game />
           {ctx.page === PageState.GameOver && <TimeUp />}
-          {ctx.page === PageState.GameClear && (
-            <h1
-              style={{
-                position: 'absolute',
-                inset: 0,
-                textAlign: 'center',
-                color: 'green',
-                paddingTop: '10%',
-              }}
-            >
-              Cleared
-            </h1>
-          )}
+          {ctx.page === PageState.GameClear && <Cleared />}
         </>
       )
     default:
