@@ -7,6 +7,7 @@ export type GameData = {
   imageUrl: string
   answerUrl: string
   timeLimit: number
+  life: number
   purins: Polygon[]
 }
 
@@ -14,6 +15,7 @@ export const gameData1: GameData = {
   imageUrl: imageUrl1,
   answerUrl: answerUrl1,
   timeLimit: 60 * 2 * 1000,
+  life: 3,
   purins: [
     new Polygon([
       [148, 0],

@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useContext } from 'react'
 
+import lifeUrl from './life.png'
+
 import { StateContext, State, GwejState, PageState } from './state'
 import { Polygon } from './polygon'
 import { GameData, gameData1 } from './gameData'
@@ -10,12 +12,14 @@ class GameContext {
   readonly timer: ReturnType<typeof setInterval>
   readonly stageImage: HTMLImageElement
   readonly answerImage: HTMLImageElement
+  readonly lifeImage: HTMLImageElement
   readonly debug: boolean
   readonly gameData: GameData
   readonly deadline: number
   page?: State
   found: boolean[]
   finished: boolean
+  life: number
 
   constructor(canvas: HTMLCanvasElement, gameData: GameData) {
     this.canvas = canvas
@@ -25,6 +29,7 @@ class GameContext {
     this.found = new Array<boolean>(this.gameData.purins.length).fill(false)
     this.deadline = Date.now() + gameData.timeLimit
     this.finished = false
+    this.life = gameData.life
 
     setTimeout(() => {
       if (!this.page) {
@@ -39,8 +44,9 @@ class GameContext {
 
     let loadedStage = false
     let loadedAnswer = false
+    let loadedLife = false
     const loaded = () => {
-      if (!loadedStage || !loadedAnswer) {
+      if (!loadedStage || !loadedAnswer || !loadedLife) {
         return
       }
       this.render()
@@ -58,6 +64,12 @@ class GameContext {
     this.answerImage.src = gameData.answerUrl
     this.answerImage.onload = () => {
       loadedAnswer = true
+      loaded()
+    }
+    this.lifeImage = new Image()
+    this.lifeImage.src = lifeUrl
+    this.lifeImage.onload = () => {
+      loadedLife = true
       loaded()
     }
 
@@ -123,6 +135,10 @@ class GameContext {
       this.cctx.fillStyle = 'red'
       this.cctx.fillRect(0, 1060, 1920 * tRemainRatio, 10)
       this.cctx.restore()
+
+      for (let i = 0; i < this.life; i++) {
+        this.cctx.drawImage(this.lifeImage, i * 56, 1030)
+      }
     }
   }
 
@@ -166,8 +182,15 @@ class GameContext {
     }
 
     const found = this.gameData.purins.findIndex((purin) => purin.isInside(p))
-    if (found != -1 && !this.found[found]) {
-      console.debug(found)
+    if (found == -1) {
+      this.life--
+      if (this.life <= 0) {
+        this.finished = true
+        this.page.setPage(PageState.GameOver)
+      }
+      this.render()
+    } else if (!this.found[found]) {
+      console.debug('clicked', found)
       this.found[found] = true
 
       this.page.setGwej(p[0] < 960 ? GwejState.Right : GwejState.Left)
