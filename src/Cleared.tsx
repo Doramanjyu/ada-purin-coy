@@ -14,6 +14,9 @@ const Cleared = () => {
       return
     }
     ctx.setStageId(ctx.stageId + 1)
+    if (ctx.maxStageId < ctx.stageId + 1) {
+      ctx.setMaxStageId(ctx.stageId + 1)
+    }
     ctx.setPage(PageState.Game)
   }
   ctx.setGwej(GwejState.Both)

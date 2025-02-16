@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 
 import titleUrl from './title.png'
 import helpUrl from './help.png'
@@ -10,9 +10,6 @@ const Title = () => {
   const ctx = useContext(StateContext)
   const onClick = () => ctx.setPage(PageState.Game)
   const [helpOpen, setHelpOpen] = useState(!ctx.helpShown)
-  if (helpOpen) {
-    ctx.setHelpShown()
-  }
   const openHelp = (e: React.MouseEvent) => {
     setHelpOpen(true)
     e.stopPropagation()
@@ -24,6 +21,13 @@ const Title = () => {
   const clickStopPropagation = (e: React.MouseEvent) => e.stopPropagation()
   const onChangeStage = (e: React.ChangeEvent<HTMLSelectElement>) =>
     ctx.setStageId(parseInt(e.target.value))
+
+  useEffect(() => {
+    if (helpOpen) {
+      ctx.setHelpShown()
+    }
+  }, [helpOpen])
+
   return (
     <div
       style={{
@@ -36,13 +40,15 @@ const Title = () => {
     >
       <select
         id="stageSelect"
+        defaultValue={ctx.stageId}
         onClick={clickStopPropagation}
         onChange={onChangeStage}
       >
         {stages.map((stage, i) => (
           <option
+            key={i}
             value={i}
-            selected={ctx.stageId === i}
+            disabled={i > ctx.maxStageId}
             style={{
               fontFamily: 'DynaPuff, serif !important',
             }}
