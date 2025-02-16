@@ -122,6 +122,22 @@ body {
   animation-fill-mode: forwards;
 }
 
+select#stageSelect {
+  font-size: 2rem;
+  padding: 4px 16px;
+  position: absolute;
+  top: 2%;
+  left: 30%;
+  right: 30%;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #abf0d1;
+  color: #593d3c;
+  border: 5px solid #593d3c;
+  font-family: DynaPuff, serif;
+  font-variation-settings: wdth 100;
+}
+
 .helpModal {
   position: absolute;
   inset: 5% 20%;
