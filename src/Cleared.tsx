@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react'
 import clearedUrl from './cleared.png'
 
 import { StateContext, PageState, GwejState } from './state'
-import { stages } from './gameData'
+import { stages } from './stages'
 
 const Cleared = () => {
   const ctx = useContext(StateContext)

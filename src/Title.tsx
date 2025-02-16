@@ -4,7 +4,7 @@ import titleUrl from './title.png'
 import helpUrl from './help.png'
 
 import { StateContext, PageState } from './state'
-import { stages } from './gameData'
+import { stages } from './stages'
 
 const Title = () => {
   const ctx = useContext(StateContext)

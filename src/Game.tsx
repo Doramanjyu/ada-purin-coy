@@ -3,8 +3,8 @@ import React, { useRef, useEffect, useContext } from 'react'
 import lifeUrl from './life.png'
 
 import { StateContext, State, GwejState, PageState } from './state'
-import { Polygon } from './polygon'
-import { StageData, stages } from './gameData'
+import { Polygon } from './math/polygon'
+import { StageData, stages } from './stages'
 
 const nggakDuration = 300
 
