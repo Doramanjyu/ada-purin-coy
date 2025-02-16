@@ -53,7 +53,7 @@ const Title = () => {
               fontFamily: 'DynaPuff, serif !important',
             }}
           >
-            {stage.name}
+            {`${i} - ${stage.name}`}
           </option>
         ))}
       </select>
