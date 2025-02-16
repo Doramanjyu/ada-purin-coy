@@ -42,6 +42,9 @@ class GameContext {
       if (this.finished) {
         return
       }
+      if (this.debug) {
+        return
+      }
       this.finished = true
       this.page.setPage(PageState.GameOver)
     }, stage.timeLimit)
@@ -178,6 +181,7 @@ class GameContext {
       const last = this.stage.purins.at(-1)
       if (last) {
         last.points.push(p)
+        this.render()
         console.info(last.points)
       }
       return
@@ -185,6 +189,9 @@ class GameContext {
 
     const found = this.stage.purins.findIndex((purin) => purin.isInside(p))
     if (found == -1) {
+      if (this.debug) {
+        return
+      }
       this.life--
       if (this.life <= 0) {
         this.finished = true
