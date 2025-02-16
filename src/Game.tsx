@@ -154,6 +154,9 @@ class GameContext {
   }
 
   onMouseDown(e: React.MouseEvent) {
+    if (e.button !== 0) {
+      return
+    }
     if (!this.page) {
       return
     }
