@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import clearedUrl from './cleared.png'
 
@@ -19,7 +19,9 @@ const Cleared = () => {
     }
     ctx.setPage(PageState.Game)
   }
-  ctx.setGwej(GwejState.Both)
+  useEffect(() => {
+    ctx.setGwej(GwejState.Both)
+  })
   return (
     <div
       style={{
