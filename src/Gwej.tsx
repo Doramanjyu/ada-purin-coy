@@ -49,7 +49,7 @@ const Gwej = () => {
           left: '17%',
           pointerEvents: 'none',
         }}
-        className="gwejAnimeRight"
+        className="nggakAnime"
       />
     </>
   )

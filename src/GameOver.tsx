@@ -17,7 +17,7 @@ const GameOver = () => {
         position: 'absolute',
         inset: 0,
         overflow: 'hidden',
-        backgroundColor: 'black',
+        backgroundColor: '#85b09d',
         opacity: 0,
         transitionProperty: 'opacity',
         transitionDuration: '2s',
