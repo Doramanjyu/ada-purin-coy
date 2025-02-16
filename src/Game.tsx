@@ -6,6 +6,8 @@ import { StateContext, State, GwejState, PageState } from './state'
 import { Polygon } from './polygon'
 import { GameData, gameData1 } from './gameData'
 
+const nggakDuration = 300
+
 class GameContext {
   readonly canvas: HTMLCanvasElement
   readonly cctx: CanvasRenderingContext2D
@@ -20,6 +22,7 @@ class GameContext {
   found: boolean[]
   finished: boolean
   life: number
+  lastMouseDown: number
 
   constructor(canvas: HTMLCanvasElement, gameData: GameData) {
     this.canvas = canvas
@@ -30,6 +33,7 @@ class GameContext {
     this.deadline = Date.now() + gameData.timeLimit
     this.finished = false
     this.life = gameData.life
+    this.lastMouseDown = 0
 
     setTimeout(() => {
       if (!this.page) {
@@ -156,12 +160,12 @@ class GameContext {
     if (this.finished) {
       return
     }
-    console.log(
-      this.canvas.width,
-      e.clientX,
-      this.canvas.offsetLeft,
-      this.canvas.clientWidth,
-    )
+    const now = Date.now()
+    if (this.lastMouseDown + nggakDuration > now) {
+      return
+    }
+    this.lastMouseDown = now
+
     const rect = this.canvas.getBoundingClientRect()
     const p = [
       Math.round((this.canvas.width * (e.clientX - rect.x)) / rect.width),
@@ -188,7 +192,18 @@ class GameContext {
       if (this.life <= 0) {
         this.finished = true
         this.page.setPage(PageState.GameOver)
+        this.render()
+        return
       }
+
+      this.page.setGwej(GwejState.Nggak)
+      setTimeout(() => {
+        if (!this.page) {
+          return
+        }
+        this.page.setGwej(GwejState.None)
+      }, nggakDuration)
+
       this.render()
     } else if (!this.found[found]) {
       console.debug('found', found)

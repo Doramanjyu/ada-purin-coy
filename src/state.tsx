@@ -12,6 +12,7 @@ export enum GwejState {
   Left = 1,
   Right = 2,
   Both = 3,
+  Nggak = 4,
 }
 
 export type State = {
