@@ -20,6 +20,8 @@ export type State = {
   setPage: (state: PageState) => void
   gwej: GwejState
   setGwej: (state: GwejState) => void
+  helpShown: boolean
+  setHelpShown: () => void
 }
 
 export const StateContext = createContext<State>({
@@ -27,6 +29,8 @@ export const StateContext = createContext<State>({
   setPage: () => {},
   gwej: GwejState.None,
   setGwej: () => {},
+  helpShown: false,
+  setHelpShown: () => {},
 })
 
 type Props = {
@@ -36,6 +40,8 @@ type Props = {
 export const StateContextProvider = ({ children }: Props) => {
   const [page, setPage] = useState(PageState.Title)
   const [gwej, setGwej] = useState(GwejState.None)
+  const [helpShown, setHelpShownBool] = useState(false)
+  const setHelpShown = () => setHelpShownBool(true)
 
   return (
     <StateContext.Provider
@@ -44,6 +50,8 @@ export const StateContextProvider = ({ children }: Props) => {
         setPage,
         gwej,
         setGwej,
+        helpShown,
+        setHelpShown,
       }}
     >
       {children}
