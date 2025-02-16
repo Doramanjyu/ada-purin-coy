@@ -234,7 +234,6 @@ const Game = () => {
       return
     }
 
-    console.log(page.stageId)
     gctx.current = new GameContext(canvasRef.current, stages[page.stageId])
 
     return () => {
