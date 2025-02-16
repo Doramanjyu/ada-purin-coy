@@ -4,7 +4,7 @@ import lifeUrl from './life.png'
 
 import { StateContext, State, GwejState, PageState } from './state'
 import { Polygon } from './polygon'
-import { GameData, gameData1 } from './gameData'
+import { StageData, stages } from './gameData'
 
 const nggakDuration = 300
 
@@ -16,7 +16,7 @@ class GameContext {
   readonly answerImage: HTMLImageElement
   readonly lifeImage: HTMLImageElement
   readonly debug: boolean
-  readonly gameData: GameData
+  readonly stage: StageData
   readonly deadline: number
   page?: State
   found: boolean[]
@@ -24,15 +24,15 @@ class GameContext {
   life: number
   lastMouseDown: number
 
-  constructor(canvas: HTMLCanvasElement, gameData: GameData) {
+  constructor(canvas: HTMLCanvasElement, stage: StageData) {
     this.canvas = canvas
     this.cctx = canvas.getContext('2d') as CanvasRenderingContext2D
     this.timer = setInterval(this.tick.bind(this), 1000)
-    this.gameData = gameData
-    this.found = new Array<boolean>(this.gameData.purins.length).fill(false)
-    this.deadline = Date.now() + gameData.timeLimit
+    this.stage = stage
+    this.found = new Array<boolean>(this.stage.purins.length).fill(false)
+    this.deadline = Date.now() + stage.timeLimit
     this.finished = false
-    this.life = gameData.life
+    this.life = stage.life
     this.lastMouseDown = 0
 
     setTimeout(() => {
@@ -44,7 +44,7 @@ class GameContext {
       }
       this.finished = true
       this.page.setPage(PageState.GameOver)
-    }, gameData.timeLimit)
+    }, stage.timeLimit)
 
     let loadedStage = false
     let loadedAnswer = false
@@ -59,13 +59,13 @@ class GameContext {
     }
 
     this.stageImage = new Image()
-    this.stageImage.src = gameData.imageUrl
+    this.stageImage.src = stage.imageUrl
     this.stageImage.onload = () => {
       loadedStage = true
       loaded()
     }
     this.answerImage = new Image()
-    this.answerImage.src = gameData.answerUrl
+    this.answerImage.src = stage.answerUrl
     this.answerImage.onload = () => {
       loadedAnswer = true
       loaded()
@@ -101,7 +101,7 @@ class GameContext {
       this.cctx.globalAlpha = 0.5
       this.cctx.lineWidth = 3
       this.cctx.strokeStyle = 'red'
-      this.gameData.purins.forEach((purin) => {
+      this.stage.purins.forEach((purin) => {
         this.cctx.beginPath()
         purin.draw(this.cctx)
         this.cctx.closePath()
@@ -109,7 +109,7 @@ class GameContext {
       })
       this.cctx.restore()
     }
-    this.gameData.purins.forEach((purin, i) => {
+    this.stage.purins.forEach((purin, i) => {
       if (!this.found[i]) {
         return
       }
@@ -128,10 +128,7 @@ class GameContext {
           100 *
             Math.max(
               0,
-              Math.min(
-                1,
-                (this.deadline - Date.now()) / this.gameData.timeLimit,
-              ),
+              Math.min(1, (this.deadline - Date.now()) / this.stage.timeLimit),
             ),
         ) / 100
       this.cctx.save()
@@ -175,10 +172,10 @@ class GameContext {
 
     if (this.debug && e.ctrlKey) {
       if (e.shiftKey) {
-        this.gameData.purins.push(new Polygon([p]))
+        this.stage.purins.push(new Polygon([p]))
         return
       }
-      const last = this.gameData.purins.at(-1)
+      const last = this.stage.purins.at(-1)
       if (last) {
         last.points.push(p)
         console.info(last.points)
@@ -186,7 +183,7 @@ class GameContext {
       return
     }
 
-    const found = this.gameData.purins.findIndex((purin) => purin.isInside(p))
+    const found = this.stage.purins.findIndex((purin) => purin.isInside(p))
     if (found == -1) {
       this.life--
       if (this.life <= 0) {
@@ -237,14 +234,15 @@ const Game = () => {
       return
     }
 
-    gctx.current = new GameContext(canvasRef.current, gameData1)
+    console.log(page.stageId)
+    gctx.current = new GameContext(canvasRef.current, stages[page.stageId])
 
     return () => {
       if (gctx.current) {
         gctx.current.clean()
       }
     }
-  }, [canvasRef])
+  }, [canvasRef, page.stageId])
 
   useEffect(() => {
     if (!gctx.current) {

@@ -4,6 +4,7 @@ import titleUrl from './title.png'
 import helpUrl from './help.png'
 
 import { StateContext, PageState } from './state'
+import { stages } from './gameData'
 
 const Title = () => {
   const ctx = useContext(StateContext)
@@ -20,6 +21,9 @@ const Title = () => {
     setHelpOpen(false)
     e.stopPropagation()
   }
+  const clickStopPropagation = (e: React.MouseEvent) => e.stopPropagation()
+  const onChangeStage = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    ctx.setStageId(parseInt(e.target.value))
   return (
     <div
       style={{
@@ -30,6 +34,23 @@ const Title = () => {
       }}
       onClick={onClick}
     >
+      <select
+        id="stageSelect"
+        onClick={clickStopPropagation}
+        onChange={onChangeStage}
+      >
+        {stages.map((stage, i) => (
+          <option
+            value={i}
+            selected={ctx.stageId === i}
+            style={{
+              fontFamily: 'DynaPuff, serif !important',
+            }}
+          >
+            {stage.name}
+          </option>
+        ))}
+      </select>
       <img
         src={helpUrl}
         style={{

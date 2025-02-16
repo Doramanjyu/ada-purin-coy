@@ -3,12 +3,18 @@ import React, { useContext } from 'react'
 import clearedUrl from './cleared.png'
 
 import { StateContext, PageState, GwejState } from './state'
+import { stages } from './gameData'
 
 const Cleared = () => {
   const ctx = useContext(StateContext)
   const onClick = () => {
-    ctx.setPage(PageState.Title)
     ctx.setGwej(GwejState.None)
+    if (ctx.stageId == stages.length - 1) {
+      ctx.setPage(PageState.Title)
+      return
+    }
+    ctx.setStageId(ctx.stageId + 1)
+    ctx.setPage(PageState.Game)
   }
   ctx.setGwej(GwejState.Both)
   return (
