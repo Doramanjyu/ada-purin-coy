@@ -25,6 +25,7 @@ class GameContext {
   readonly stageImage: HTMLImageElement
   readonly answerImage: HTMLImageElement
   readonly lifeImage: HTMLImageElement
+  readonly wrongSound: HTMLAudioElement
   readonly debug: boolean
   readonly stage: StageData
   readonly deadline: number
@@ -95,6 +96,9 @@ class GameContext {
       loadedLife = true
       loaded()
     }
+
+    this.wrongSound = new Audio()
+    this.wrongSound.src = 'sounds/beep.mp3'
 
     const p = new URLSearchParams(window.location.search)
     this.debug = !!p.get('debug')
@@ -208,6 +212,7 @@ class GameContext {
         return
       }
       this.life--
+      this.wrongSound.play()
       if (this.life <= 0) {
         this.finished = true
         this.onGameStateChange(GameState.GameOver)
