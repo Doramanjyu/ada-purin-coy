@@ -212,6 +212,7 @@ class GameContext {
         return
       }
       this.life--
+      this.wrongSound.currentTime = 0
       this.wrongSound.play()
       if (this.life <= 0) {
         this.finished = true
