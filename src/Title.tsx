@@ -108,17 +108,17 @@ const Title = () => {
             <p>Happy Birthday Purin!!!</p>
             <p>Can you find out all hidden Purins on screen??</p>
             <hr />
-            <h2>Illusts</h2>
+            <h2>Stage design</h2>
             <div className="nameList">
-              <div>doramanjyu</div>
-              <div>name</div>
-              <div>name</div>
-              <div>name</div>
+              {Array.from(new Set(stages.map((stage) => stage.author))).map(
+                (name) => (
+                  <div>{name}</div>
+                ),
+              )}
             </div>
             <h2>Game system</h2>
             <div className="nameList">
               <div>doramanjyu</div>
-              <div>name</div>
             </div>
           </div>
         </div>

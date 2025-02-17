@@ -5,6 +5,7 @@ import answerUrl from './stage0.answer.png'
 
 export default {
   name: 'Tutorial',
+  author: 'doramanjyu',
   imageUrl: imageUrl,
   answerUrl: answerUrl,
   timeLimit: 60 * 5 * 1000,

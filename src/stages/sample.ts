@@ -5,6 +5,7 @@ import answerUrl from './sample.answer.png'
 
 export default {
   name: 'Sample',
+  author: 'Testing',
   imageUrl: imageUrl,
   answerUrl: answerUrl,
   timeLimit: 60 * 1000,

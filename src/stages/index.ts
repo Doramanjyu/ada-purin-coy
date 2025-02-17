@@ -5,6 +5,7 @@ import sample from './sample'
 
 export type StageData = {
   name: string
+  author: string
   imageUrl: string
   answerUrl: string
   timeLimit: number
