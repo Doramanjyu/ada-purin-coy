@@ -1,12 +1,20 @@
-import React, { useRef, useEffect, useContext } from 'react'
+import React, { useRef, useEffect, useContext, useState } from 'react'
 
 import lifeUrl from './life.png'
 
-import { StateContext, State, GwejState, PageState } from './state'
+import GameOver, { preloads as preloadsGameOver } from './GameOver'
+import Cleared, { preloads as preloadsCleared } from './Cleared'
+import { StateContext, State, GwejState } from './state'
 import { Polygon } from './math/polygon'
 import { StageData, stages } from './stages'
 
 const nggakDuration = 300
+
+enum GameState {
+  Playing = 0,
+  GameOver = 1,
+  Cleared = 2,
+}
 
 class GameContext {
   readonly canvas: HTMLCanvasElement
@@ -24,6 +32,8 @@ class GameContext {
   life: number
   lastMouseDown: number
 
+  onGameStateChange: (s: GameState) => void
+
   constructor(canvas: HTMLCanvasElement, stage: StageData) {
     this.canvas = canvas
     this.cctx = canvas.getContext('2d') as CanvasRenderingContext2D
@@ -34,6 +44,7 @@ class GameContext {
     this.finished = false
     this.life = stage.life
     this.lastMouseDown = 0
+    this.onGameStateChange = () => {}
 
     setTimeout(() => {
       if (!this.page) {
@@ -46,7 +57,7 @@ class GameContext {
         return
       }
       this.finished = true
-      this.page.setPage(PageState.GameOver)
+      this.onGameStateChange(GameState.GameOver)
     }, stage.timeLimit)
 
     let loadedStage = false
@@ -86,10 +97,6 @@ class GameContext {
 
   clean() {
     clearInterval(this.timer)
-  }
-
-  updatePage(p: State) {
-    this.page = p
   }
 
   render() {
@@ -198,7 +205,7 @@ class GameContext {
       this.life--
       if (this.life <= 0) {
         this.finished = true
-        this.page.setPage(PageState.GameOver)
+        this.onGameStateChange(GameState.GameOver)
         this.render()
         return
       }
@@ -228,7 +235,7 @@ class GameContext {
 
       if (this.found.every((b) => b)) {
         this.finished = true
-        this.page.setPage(PageState.GameClear)
+        this.onGameStateChange(GameState.Cleared)
       }
     }
   }
@@ -238,13 +245,20 @@ const Game = () => {
   const page = useContext(StateContext)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gctx = useRef<GameContext>(null)
+  const [gameState, setGameState] = useState(GameState.Playing)
 
   useEffect(() => {
     if (!canvasRef.current) {
       return
     }
 
+    setGameState(GameState.Playing)
+    if (page) {
+      page.setGwej(GwejState.None)
+    }
     gctx.current = new GameContext(canvasRef.current, stages[page.stageId])
+    gctx.current.page = page
+    gctx.current.onGameStateChange = setGameState
 
     return () => {
       if (gctx.current) {
@@ -257,8 +271,15 @@ const Game = () => {
     if (!gctx.current) {
       return
     }
-    gctx.current.updatePage(page)
+    gctx.current.page = page
   }, [page])
+
+  useEffect(() => {
+    if (!gctx.current) {
+      return
+    }
+    gctx.current.onGameStateChange = setGameState
+  }, [setGameState])
 
   const onMouseDown = (e: React.MouseEvent) => {
     if (!gctx.current) {
@@ -268,23 +289,31 @@ const Game = () => {
   }
 
   return (
-    <canvas
-      width="1920"
-      height="1080"
-      ref={canvasRef}
-      style={{
-        position: 'absolute',
-        inset: 0,
-        opacity: 0,
-        width: '100%',
-        transitionProperty: 'opacity',
-        transitionDuration: '0.5s',
-        pointerEvents: 'none',
-      }}
-      onMouseDown={onMouseDown}
-    ></canvas>
+    <>
+      <canvas
+        width="1920"
+        height="1080"
+        ref={canvasRef}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          opacity: 0,
+          width: '100%',
+          transitionProperty: 'opacity',
+          transitionDuration: '0.5s',
+          pointerEvents: 'none',
+        }}
+        onMouseDown={onMouseDown}
+      ></canvas>
+      {gameState === GameState.GameOver && <GameOver />}
+      {gameState === GameState.Cleared && <Cleared />}
+    </>
   )
 }
 
 export default Game
-export const preloads: string[] = [lifeUrl]
+export const preloads: string[] = [
+  lifeUrl,
+  ...preloadsGameOver,
+  ...preloadsCleared,
+]
