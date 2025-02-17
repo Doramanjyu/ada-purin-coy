@@ -26,6 +26,8 @@ class GameContext {
   readonly answerImage: HTMLImageElement
   readonly lifeImage: HTMLImageElement
   readonly wrongSound: HTMLAudioElement
+  readonly boomSound: HTMLAudioElement
+  readonly foundSound: HTMLAudioElement
   readonly debug: boolean
   readonly stage: StageData
   readonly deadline: number
@@ -99,6 +101,10 @@ class GameContext {
 
     this.wrongSound = new Audio()
     this.wrongSound.src = 'sounds/beep.mp3'
+    this.boomSound = new Audio()
+    this.boomSound.src = 'sounds/boom.mp3'
+    this.foundSound = new Audio()
+    this.foundSound.src = 'sounds/found.mp3'
 
     const p = new URLSearchParams(window.location.search)
     this.debug = !!p.get('debug')
@@ -215,6 +221,8 @@ class GameContext {
       this.wrongSound.currentTime = 0
       this.wrongSound.play()
       if (this.life <= 0) {
+        this.boomSound.currentTime = 0
+        this.boomSound.play()
         this.finished = true
         this.onGameStateChange(GameState.GameOver)
         this.render()
@@ -233,6 +241,9 @@ class GameContext {
     } else if (!this.found[found]) {
       console.debug('found', found)
       this.found[found] = true
+
+      this.foundSound.currentTime = 0
+      this.foundSound.play()
 
       this.page.setGwej(p[0] < 960 ? GwejState.Right : GwejState.Left)
       setTimeout(() => {
