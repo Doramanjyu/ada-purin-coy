@@ -20,7 +20,7 @@ const GameOver = () => {
         backgroundColor: '#85b09d',
         opacity: 0,
         transitionProperty: 'opacity',
-        transitionDuration: '2s',
+        transitionDuration: '1s',
       }}
       onClick={onClick}
       onLoad={onLoad}

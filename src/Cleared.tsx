@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import clearedUrl from './cleared.png'
 
@@ -7,8 +7,10 @@ import { stages } from './stages'
 
 const Cleared = () => {
   const ctx = useContext(StateContext)
+  const [closing, setClosing] = useState(false)
   const onClick = () => {
     ctx.setGwej(GwejState.None)
+    setClosing(true)
     if (ctx.stageId == stages.length - 1) {
       ctx.setPage(PageState.Title)
       return
@@ -21,7 +23,7 @@ const Cleared = () => {
   }
   useEffect(() => {
     ctx.setGwej(GwejState.Both)
-  })
+  }, [])
   return (
     <div
       style={{
@@ -31,16 +33,18 @@ const Cleared = () => {
       }}
       onClick={onClick}
     >
-      <img
-        src={clearedUrl}
-        style={{
-          position: 'absolute',
-          width: '50%',
-          left: '25%',
-          top: '0',
-        }}
-        className="titleAnime"
-      />
+      {!closing && (
+        <img
+          src={clearedUrl}
+          style={{
+            position: 'absolute',
+            width: '50%',
+            left: '25%',
+            top: '0',
+          }}
+          className="titleAnime"
+        />
+      )}
     </div>
   )
 }

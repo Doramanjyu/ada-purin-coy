@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 
 import Title, { preloads as preloadsTitle } from './Title'
 import Game, { preloads as preloadsGame } from './Game'
@@ -7,6 +7,9 @@ import { StateContextProvider, StateContext, PageState } from './state'
 
 const Contents = () => {
   const ctx = useContext(StateContext)
+  const fadeRef = useRef<HTMLDivElement>(null)
+  const [currentPage, setCurrentPage] = useState(PageState.Title)
+
   useEffect(() => {
     const preloads = ([] as string[]).concat(
       preloadsTitle,
@@ -19,14 +22,52 @@ const Contents = () => {
       img.src = url
     })
   }, [])
-  switch (ctx?.page) {
-    case PageState.Title:
-      return <Title />
-    case PageState.Game:
-      return <Game />
-    default:
-      return <>ERROR</>
+
+  useEffect(() => {
+    if (ctx.page === currentPage) {
+      return
+    }
+    const nextPage = ctx.page
+    if (fadeRef.current) {
+      fadeRef.current.style.opacity = '1'
+    }
+    setTimeout(() => {
+      if (fadeRef.current) {
+        fadeRef.current.style.opacity = '0'
+      }
+      setCurrentPage(nextPage)
+    }, 200)
+  }, [ctx.page, currentPage])
+
+  const currentContents = (): React.ReactNode => {
+    switch (currentPage) {
+      case PageState.Title:
+        return <Title />
+      case PageState.Game:
+        return <Game />
+      default:
+        return <h1>ERROR: please report this to the authors...</h1>
+    }
   }
+  return (
+    <>
+      {currentContents()}
+      <div
+        ref={fadeRef}
+        style={{
+          zIndex: 10000,
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'url(images/title-background.png)',
+          backgroundSize: 'cover',
+          opacity: 0,
+          transitionProperty: 'opacity',
+          transitionDuration: '0.2s',
+          pointerEvents: 'none',
+        }}
+      />
+    </>
+  )
 }
 
 const Main = () => (

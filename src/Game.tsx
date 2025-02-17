@@ -9,6 +9,8 @@ import { Polygon } from './math/polygon'
 import { StageData, stages } from './stages'
 
 const nggakDuration = 300
+const stageTransitionDuration = 300
+const stageStartDelay = 400
 
 enum GameState {
   Playing = 0,
@@ -68,8 +70,10 @@ class GameContext {
         return
       }
       this.render()
-      canvas.style.opacity = '1'
-      canvas.style.pointerEvents = 'auto'
+      setTimeout(() => {
+        canvas.style.opacity = '1'
+        canvas.style.pointerEvents = 'auto'
+      }, stageStartDelay)
     }
 
     this.stageImage = new Image()
@@ -212,7 +216,7 @@ class GameContext {
 
       this.page.setGwej(GwejState.Nggak)
       setTimeout(() => {
-        if (!this.page) {
+        if (!this.page || this.finished) {
           return
         }
         this.page.setGwej(GwejState.None)
@@ -225,7 +229,7 @@ class GameContext {
 
       this.page.setGwej(p[0] < 960 ? GwejState.Right : GwejState.Left)
       setTimeout(() => {
-        if (!this.page) {
+        if (!this.page || this.finished) {
           return
         }
         this.page.setGwej(GwejState.None)
@@ -246,6 +250,15 @@ const Game = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gctx = useRef<GameContext>(null)
   const [gameState, setGameState] = useState(GameState.Playing)
+  const [stageId, setStageId] = useState(page.stageId)
+
+  useEffect(() => {
+    const nextStageId = page.stageId
+    if (canvasRef.current) {
+      canvasRef.current.style.opacity = '0'
+    }
+    setTimeout(() => setStageId(nextStageId), stageTransitionDuration)
+  }, [page.stageId])
 
   useEffect(() => {
     if (!canvasRef.current) {
@@ -256,16 +269,17 @@ const Game = () => {
     if (page) {
       page.setGwej(GwejState.None)
     }
-    gctx.current = new GameContext(canvasRef.current, stages[page.stageId])
+    gctx.current = new GameContext(canvasRef.current, stages[stageId])
     gctx.current.page = page
     gctx.current.onGameStateChange = setGameState
+    canvasRef.current.style.opacity = '0'
 
     return () => {
       if (gctx.current) {
         gctx.current.clean()
       }
     }
-  }, [canvasRef, page.stageId])
+  }, [canvasRef, stageId])
 
   useEffect(() => {
     if (!gctx.current) {
@@ -300,7 +314,7 @@ const Game = () => {
           opacity: 0,
           width: '100%',
           transitionProperty: 'opacity',
-          transitionDuration: '0.5s',
+          transitionDuration: `${stageTransitionDuration / 1000}s`,
           pointerEvents: 'none',
         }}
         onMouseDown={onMouseDown}
