@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 
 import gwejUrl from './gwej.png'
+import gwejTextUrl from './gwejText.png'
 import nggakUrl from './nggak.png'
 
 import { StateContext, GwejState } from './state'
@@ -38,6 +39,23 @@ const Gwej = () => {
           pointerEvents: 'none',
         }}
         className="gwejAnimeLeft"
+      />
+      <img
+        src={gwejTextUrl}
+        style={{
+          display:
+            state.gwej === GwejState.Left ||
+            state.gwej === GwejState.Right ||
+            state.gwej === GwejState.Both
+              ? 'block'
+              : 'none',
+          position: 'absolute',
+          width: '50%',
+          top: '10%',
+          left: '25%',
+          pointerEvents: 'none',
+        }}
+        className="gwejAnimeRight"
       />
       <img
         src={nggakUrl}
