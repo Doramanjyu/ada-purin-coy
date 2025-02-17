@@ -140,7 +140,6 @@ select#stageSelect {
 
 .helpModal {
   position: absolute;
-  inset: 5% 20%;
   background-color: #abf0d1;
   border: 5px solid #593d3c;
   border-radius: 2%;
@@ -151,6 +150,8 @@ select#stageSelect {
   font-variation-settings: wdth 100;
   color: #593d3c;
   overflow: scroll;
+  transition-property: inset;
+  transition-duration: 0.5s;
 }
 
 .helpModal h1 {
@@ -176,4 +177,19 @@ select#stageSelect {
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
+}
+
+@media only screen and (max-width: 1000px) {
+  select#stageSelect {
+    font-size: 1rem;
+  }
+  .helpModal {
+    font-size: 1rem;
+  }
+  .helpModal h1 {
+    font-size: 1.5rem;
+  }
+  .helpModal h2 {
+    font-size: 1.2rem;
+  }
 }

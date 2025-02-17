@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 
 import titleUrl from './title.png'
 import helpUrl from './help.png'
@@ -9,13 +9,19 @@ import { stages } from './stages'
 const Title = () => {
   const ctx = useContext(StateContext)
   const onClick = () => ctx.setPage(PageState.Game)
+
+  const helpModalRef = useRef<HTMLDivElement>(null)
   const [helpOpen, setHelpOpen] = useState(!ctx.helpShown)
   const openHelp = (e: React.MouseEvent) => {
     setHelpOpen(true)
     e.stopPropagation()
   }
   const closeHelp = (e: React.MouseEvent) => {
-    setHelpOpen(false)
+    if (!helpModalRef.current) {
+      return
+    }
+    helpModalRef.current.style.inset = '50% 15%'
+    setTimeout(() => setHelpOpen(false), 400)
     e.stopPropagation()
   }
   const clickStopPropagation = (e: React.MouseEvent) => e.stopPropagation()
@@ -25,6 +31,12 @@ const Title = () => {
   useEffect(() => {
     if (helpOpen) {
       ctx.setHelpShown()
+      setTimeout(() => {
+        if (!helpModalRef.current) {
+          return
+        }
+        helpModalRef.current.style.inset = '5% 15%'
+      }, 50)
     }
   }, [helpOpen])
 
@@ -85,7 +97,13 @@ const Title = () => {
           }}
           onClick={closeHelp}
         >
-          <div className="helpModal" style={{}}>
+          <div
+            className="helpModal"
+            style={{
+              inset: '50% 15%',
+            }}
+            ref={helpModalRef}
+          >
             <h1>ADA PURIN COY - Purin Birthday Project 2025</h1>
             <p>Happy Birthday Purin!!!</p>
             <p>Can you find out all hidden Purins on screen??</p>
