@@ -112,7 +112,7 @@ const Title = () => {
             <div className="nameList">
               {Array.from(new Set(stages.map((stage) => stage.author))).map(
                 (name) => (
-                  <div>{name}</div>
+                  <div key={name}>{name}</div>
                 ),
               )}
             </div>
