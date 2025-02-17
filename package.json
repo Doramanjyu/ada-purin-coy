@@ -8,7 +8,8 @@
     "fmt": "prettier --write './src/**/*.{js,ts,tsx}' '*.mjs'",
     "lint": "eslint './src/**/*.{js,ts,tsx}'",
     "fix": "eslint --fix './src/**/*.{js,ts,tsx}'",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "check": "pnpm typecheck && pnpm lint"
   },
   "devDependencies": {
     "@babel/core": "7.26.9",
