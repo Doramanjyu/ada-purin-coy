@@ -60,6 +60,7 @@ class GameContext {
       }
       this.finished = true
       this.onGameStateChange(GameState.GameOver)
+      this.render()
     }, stage.timeLimit)
 
     let loadedStage = false
@@ -240,6 +241,7 @@ class GameContext {
       if (this.found.every((b) => b)) {
         this.finished = true
         this.onGameStateChange(GameState.Cleared)
+        this.render()
       }
     }
   }
