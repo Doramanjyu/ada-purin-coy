@@ -34,9 +34,10 @@ const Cleared = () => {
       <img
         src={clearedUrl}
         style={{
-          width: '100%',
           position: 'absolute',
-          top: 0,
+          width: '50%',
+          left: '25%',
+          top: '0',
         }}
         className="titleAnime"
       />
