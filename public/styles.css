@@ -179,6 +179,35 @@ select#stageSelect {
   gap: 1.2rem;
 }
 
+.stageInfo {
+  z-index: 20000;
+  position: absolute;
+  width: 80%;
+  height: 12%;
+  left: 10%;
+  top: -12%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.8rem;
+  font-family: DynaPuff, serif;
+  font-variation-settings: wdth 100;
+  border-radius: 20px;
+  background-color: #abf0d1;
+  color: #593d3c;
+  border: 5px solid #593d3c;
+  opacity: 0.8;
+  transition-property: top;
+  transition-duration: 0.8s;
+}
+
+.stageInfo .stageTitle {
+  font-size: 2.3rem;
+  padding: 0 0.5em;
+}
+
 @media only screen and (max-width: 1000px) {
   select#stageSelect {
     font-size: 1rem;
@@ -191,5 +220,11 @@ select#stageSelect {
   }
   .helpModal h2 {
     font-size: 1.2rem;
+  }
+  .stageInfo {
+    font-size: 1.2rem;
+  }
+  .stageInfo .stageTitle {
+    font-size: 1.8rem;
   }
 }

@@ -11,6 +11,7 @@ import { StageData, stages, dumpPurins } from './stages'
 const nggakDuration = 300
 const stageTransitionDuration = 300
 const stageStartDelay = 400
+const stageTitleDuration = 5000
 
 enum GameState {
   Playing = 0,
@@ -300,15 +301,27 @@ class GameContext {
 const Game = () => {
   const page = useContext(StateContext)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const stageInfoRef = useRef<HTMLDivElement>(null)
   const gctx = useRef<GameContext>(null)
   const [gameState, setGameState] = useState(GameState.Playing)
   const [stageId, setStageId] = useState(page.stageId)
 
+  const hideStageInfo = () => {
+    if (stageInfoRef.current) {
+      stageInfoRef.current.style.top = '-12%'
+    }
+  }
   useEffect(() => {
     const nextStageId = page.stageId
     if (canvasRef.current) {
       canvasRef.current.style.opacity = '0'
     }
+    setTimeout(() => {
+      if (stageInfoRef.current) {
+        stageInfoRef.current.style.top = '15%'
+      }
+    }, 50)
+    setTimeout(hideStageInfo, stageTitleDuration)
     setTimeout(() => setStageId(nextStageId), stageTransitionDuration)
   }, [page.stageId])
 
@@ -374,6 +387,13 @@ const Game = () => {
         onMouseDown={onMouseDown}
         onKeyDown={onKeyDown}
       ></canvas>
+      <div ref={stageInfoRef} className="stageInfo" onClick={hideStageInfo}>
+        <div className="stageInfoText">
+          {`stage ${stageId} - `}
+          <span className="stageTitle">{`${stages[stageId].name}`}</span>
+          {` (${stages[stageId].timeLimit / 1000}s)`}
+        </div>
+      </div>
       {gameState === GameState.GameOver && <GameOver />}
       {gameState === GameState.Cleared && <Cleared />}
     </>
