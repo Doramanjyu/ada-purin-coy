@@ -4,9 +4,9 @@ import lifeUrl from './life.png'
 
 import GameOver, { preloads as preloadsGameOver } from './GameOver'
 import Cleared, { preloads as preloadsCleared } from './Cleared'
-import { StateContext, State, GwejState } from './state'
+import { StateContext, State, GwejState, PageState } from './state'
 import { Polygon } from './math/polygon'
-import { StageData, stages } from './stages'
+import { StageData, stages, dumpPurins } from './stages'
 
 const nggakDuration = 300
 const stageTransitionDuration = 300
@@ -36,6 +36,7 @@ class GameContext {
   finished: boolean
   life: number
   lastMouseDown: number
+  selectedId: number
 
   onGameStateChange: (s: GameState) => void
 
@@ -50,6 +51,7 @@ class GameContext {
     this.life = stage.life
     this.lastMouseDown = 0
     this.onGameStateChange = () => {}
+    this.selectedId = -1
 
     setTimeout(() => {
       if (!this.page) {
@@ -119,14 +121,16 @@ class GameContext {
       return
     }
     this.cctx.globalAlpha = 1
+    this.cctx.lineCap = 'round'
+    this.cctx.lineJoin = 'round'
     this.cctx.drawImage(this.stageImage, 0, 0)
 
     if (this.debug) {
       this.cctx.save()
       this.cctx.globalAlpha = 0.5
-      this.cctx.lineWidth = 3
       this.cctx.strokeStyle = 'red'
-      this.stage.purins.forEach((purin) => {
+      this.stage.purins.forEach((purin, id) => {
+        this.cctx.lineWidth = this.selectedId === id ? 8 : 3
         this.cctx.beginPath()
         purin.draw(this.cctx)
         this.cctx.closePath()
@@ -196,27 +200,26 @@ class GameContext {
       Math.round((this.canvas.width * (e.clientX - rect.x)) / rect.width),
       Math.round((this.canvas.height * (e.clientY - rect.y)) / rect.height),
     ]
-    console.debug('mouse down', p)
 
     if (this.debug && e.ctrlKey) {
-      if (e.shiftKey) {
+      if (this.selectedId < 0) {
         this.stage.purins.push(new Polygon([p]))
+        this.selectedId = this.stage.purins.length - 1
+        this.render()
         return
       }
-      const last = this.stage.purins.at(-1)
-      if (last) {
-        last.points.push(p)
-        this.render()
-        console.info(last.points)
-      }
+      this.stage.purins[this.selectedId].points.push(p)
+      this.render()
       return
     }
 
     const found = this.stage.purins.findIndex((purin) => purin.isInside(p))
+    if (this.debug) {
+      this.selectedId = found
+      this.render()
+      return
+    }
     if (found == -1) {
-      if (this.debug) {
-        return
-      }
       this.life--
       this.wrongSound.currentTime = 0
       this.wrongSound.play()
@@ -239,7 +242,6 @@ class GameContext {
 
       this.render()
     } else if (!this.found[found]) {
-      console.debug('found', found)
       this.found[found] = true
 
       this.foundSound.currentTime = 0
@@ -260,6 +262,36 @@ class GameContext {
         this.onGameStateChange(GameState.Cleared)
         this.render()
       }
+    }
+  }
+
+  onKeyDown(e: React.KeyboardEvent) {
+    const filterAndDump = () => {
+      this.selectedId = -1
+      this.stage.purins = this.stage.purins.filter(
+        (purin) => purin.points.length > 2,
+      )
+      console.log(dumpPurins(this.stage.purins))
+    }
+    switch (e.code) {
+      case 'Escape':
+        this.page?.setPage(PageState.Title)
+        if (this.debug) {
+          filterAndDump()
+        }
+        return
+      case 'Enter':
+        if (this.debug) {
+          filterAndDump()
+        }
+        return
+      case 'Delete':
+        if (this.selectedId >= 0) {
+          this.stage.purins.splice(this.selectedId, 1)
+          this.selectedId = -1
+          this.render()
+        }
+        return
     }
   }
 }
@@ -288,6 +320,7 @@ const Game = () => {
     if (page) {
       page.setGwej(GwejState.None)
     }
+    canvasRef.current.tabIndex = 1000
     gctx.current = new GameContext(canvasRef.current, stages[stageId])
     gctx.current.page = page
     gctx.current.onGameStateChange = setGameState
@@ -315,10 +348,10 @@ const Game = () => {
   }, [setGameState])
 
   const onMouseDown = (e: React.MouseEvent) => {
-    if (!gctx.current) {
-      return
-    }
-    gctx.current.onMouseDown(e)
+    gctx.current?.onMouseDown(e)
+  }
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    gctx.current?.onKeyDown(e)
   }
 
   return (
@@ -335,8 +368,10 @@ const Game = () => {
           transitionProperty: 'opacity',
           transitionDuration: `${stageTransitionDuration / 1000}s`,
           pointerEvents: 'none',
+          outline: 'none',
         }}
         onMouseDown={onMouseDown}
+        onKeyDown={onKeyDown}
       ></canvas>
       {gameState === GameState.GameOver && <GameOver />}
       {gameState === GameState.Cleared && <Cleared />}

@@ -13,4 +13,17 @@ export type StageData = {
   purins: Polygon[]
 }
 
+export const dumpPurins = (purins: Polygon[]): string => {
+  const lines = ['  purins: [']
+  purins.forEach((purin) => {
+    lines.push('    new Polygon([')
+    purin.points.forEach((p) => {
+      lines.push(`      [${p[0]}, ${p[1]}]`)
+    })
+    lines.push('    ]),')
+  })
+  lines.push('  ],')
+  return lines.join('\n')
+}
+
 export const stages: StageData[] = [stage0, sample]
