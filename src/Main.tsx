@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from 'react'
+import React, { useContext, useEffect, useState, useRef, useMemo } from 'react'
 
 import Title, { preloads as preloadsTitle } from './Title'
 import Game, { preloads as preloadsGame } from './Game'
@@ -39,7 +39,7 @@ const Contents = () => {
     }, 200)
   }, [ctx.page, currentPage])
 
-  const currentContents = (): React.ReactNode => {
+  const currentContents = useMemo((): React.ReactNode => {
     switch (currentPage) {
       case PageState.Title:
         return <Title />
@@ -48,10 +48,10 @@ const Contents = () => {
       default:
         return <h1>ERROR: please report this to the authors...</h1>
     }
-  }
+  }, [currentPage])
   return (
     <>
-      {currentContents()}
+      {currentContents}
       <div
         ref={fadeRef}
         style={{
