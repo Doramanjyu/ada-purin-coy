@@ -11,7 +11,7 @@ import { StageData, stages, dumpPurins } from './stages'
 const nggakDuration = 300
 const stageTransitionDuration = 300
 const stageStartDelay = 400
-const stageTitleDuration = 5000
+const stageTitleDuration = 4000
 
 enum GameState {
   Playing = 0,
@@ -308,7 +308,7 @@ const Game = () => {
 
   const hideStageInfo = () => {
     if (stageInfoRef.current) {
-      stageInfoRef.current.style.top = '-12%'
+      stageInfoRef.current.style.bottom = '-12%'
     }
   }
   useEffect(() => {
@@ -318,7 +318,7 @@ const Game = () => {
     }
     setTimeout(() => {
       if (stageInfoRef.current) {
-        stageInfoRef.current.style.top = '15%'
+        stageInfoRef.current.style.bottom = '0'
       }
     }, 50)
     setTimeout(hideStageInfo, stageTitleDuration)
