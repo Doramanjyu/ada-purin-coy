@@ -276,6 +276,7 @@ class GameContext {
     switch (e.code) {
       case 'Escape':
         this.page?.setPage(PageState.Title)
+        this.page?.setGwej(GwejState.None)
         if (this.debug) {
           filterAndDump()
         }
