@@ -363,6 +363,7 @@ const Game = () => {
 
   const onMouseDown = (e: React.MouseEvent) => {
     gctx.current?.onMouseDown(e)
+    hideStageInfo()
   }
   const onKeyDown = (e: React.KeyboardEvent) => {
     gctx.current?.onKeyDown(e)
