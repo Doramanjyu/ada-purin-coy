@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from 'react'
 
 import titleUrl from './title.png'
 import helpUrl from './help.png'
+import fullscreenUrl from './fullscreen.png'
 
 import { StateContext, PageState } from './state'
 import { stages } from './stages'
@@ -40,6 +41,20 @@ const Title = () => {
     }
   }, [helpOpen])
 
+  const toggleFullscreen = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const root = document.getElementById('screenRoot')
+    if (!root) {
+      return
+    }
+    if (document.fullscreenElement) {
+      document.exitFullscreen()
+    } else {
+      root.requestFullscreen()
+      window.screen.orientation.lock('landscape-primary')
+    }
+  }
+
   return (
     <div
       style={{
@@ -75,9 +90,21 @@ const Title = () => {
           position: 'absolute',
           top: '2%',
           left: '2%',
+          width: '4%',
           cursor: 'pointer',
         }}
         onClick={openHelp}
+      />
+      <img
+        src={fullscreenUrl}
+        style={{
+          position: 'absolute',
+          top: '2%',
+          right: '2%',
+          width: '4%',
+          cursor: 'pointer',
+        }}
+        onClick={toggleFullscreen}
       />
       <img
         src={titleUrl}
