@@ -316,14 +316,15 @@ const Game = () => {
     if (canvasRef.current) {
       canvasRef.current.style.opacity = '0'
     }
-    setTimeout(() => {
-      if (stageInfoRef.current) {
-        stageInfoRef.current.style.bottom = '0'
-      }
-    }, 50)
     setTimeout(hideStageInfo, stageTitleDuration)
     setTimeout(() => setStageId(nextStageId), stageTransitionDuration)
   }, [page.stageId])
+
+  useEffect(() => {
+    if (stageInfoRef.current) {
+      stageInfoRef.current.style.bottom = '0'
+    }
+  }, [stageId])
 
   useEffect(() => {
     if (!canvasRef.current) {
