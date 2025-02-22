@@ -8,7 +8,7 @@ export default {
   author: 'doramanjyu',
   imageUrl: imageUrl,
   answerUrl: answerUrl,
-  timeLimit: 60 * 5 * 1000,
+  timeLimit: 300 * 1000,
   life: 4,
   purins: [
     new Polygon([
