@@ -1,7 +1,7 @@
 import { Polygon } from '../math/polygon'
 
-import imageUrl from './stage0.png'
-import answerUrl from './stage0.answer.png'
+import imageUrl from './tutorial.png'
+import answerUrl from './tutorial.answer.png'
 
 export default {
   name: 'Tutorial',
