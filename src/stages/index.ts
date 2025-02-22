@@ -1,7 +1,6 @@
 import { Polygon } from '../math/polygon'
 
 import stage0 from './stage0'
-import sample from './sample'
 import purinFactory from './purin-factory'
 
 export type StageData = {
@@ -27,4 +26,4 @@ export const dumpPurins = (purins: Polygon[]): string => {
   return lines.join('\n')
 }
 
-export const stages: StageData[] = [stage0, sample, purinFactory]
+export const stages: StageData[] = [stage0, purinFactory]
