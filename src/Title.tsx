@@ -135,21 +135,30 @@ const Title = () => {
             ref={helpModalRef}
           >
             <h1>ADA PURIN COY - Purin Birthday Project 2025</h1>
-            <p>Happy Birthday Purin!!!</p>
-            <p>Can you find out all hidden Purins on screen??</p>
+            <section>
+              <p>Happy Birthday Purin!!!</p>
+              <p>Can you find out all hidden Purins on screen??</p>
+            </section>
+            <section>
+              <p>[ SAFE FOR STREAM ]</p>
+            </section>
             <hr />
-            <h2>Stage design</h2>
-            <div className="nameList">
-              {Array.from(new Set(stages.map((stage) => stage.author))).map(
-                (name) => (
-                  <div key={name}>{name}</div>
-                ),
-              )}
-            </div>
-            <h2>Game system</h2>
-            <div className="nameList">
-              <div>doramanjyu</div>
-            </div>
+            <section>
+              <h2>Stage design</h2>
+              <div className="nameList">
+                {Array.from(new Set(stages.map((stage) => stage.author))).map(
+                  (name) => (
+                    <div key={name}>{name}</div>
+                  ),
+                )}
+              </div>
+            </section>
+            <section>
+              <h2>Game system</h2>
+              <div className="nameList">
+                <div>doramanjyu</div>
+              </div>
+            </section>
           </div>
         </div>
       )}
