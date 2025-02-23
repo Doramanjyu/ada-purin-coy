@@ -1,6 +1,7 @@
 import React, { createContext, useState } from 'react'
 
 import { usePersistState } from './usePersistState'
+import { stages } from './stages'
 
 export enum PageState {
   Title = 0,
@@ -48,8 +49,10 @@ type Props = {
 export const StateContextProvider = ({ children }: Props) => {
   const [page, setPage] = useState(PageState.Title)
   const [gwej, setGwej] = useState(GwejState.None)
-  const [stageId, setStageId] = useState(0)
   const [maxStageId, setMaxStageIdFn] = usePersistState('maxStageId', 0)
+  const [stageId, setStageId] = useState(
+    Math.min(maxStageId, stages.length - 1),
+  )
   const [helpShown, setHelpShownBool] = useState(false)
   const setMaxStageId = (id: number) => setMaxStageIdFn(() => id)
   const setHelpShown = () => setHelpShownBool(true)
