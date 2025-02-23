@@ -7,6 +7,7 @@ import Cleared, { preloads as preloadsCleared } from './Cleared'
 import { StateContext, State, GwejState, PageState } from './state'
 import { Polygon } from './math/polygon'
 import { StageData, stages, dumpPurins } from './stages'
+import { isDebug } from './debug'
 
 const nggakDuration = 300
 const stageTransitionDuration = 300
@@ -109,8 +110,7 @@ class GameContext {
     this.foundSound = new Audio()
     this.foundSound.src = 'sounds/found.mp3'
 
-    const p = new URLSearchParams(window.location.search)
-    this.debug = !!p.get('debug')
+    this.debug = isDebug()
   }
 
   clean() {
@@ -129,6 +129,7 @@ class GameContext {
     if (this.debug) {
       this.cctx.save()
       this.cctx.globalAlpha = 0.5
+      this.cctx.drawImage(this.answerImage, 0, 0)
       this.cctx.strokeStyle = 'red'
       this.stage.purins.forEach((purin, id) => {
         this.cctx.lineWidth = this.selectedId === id ? 8 : 3

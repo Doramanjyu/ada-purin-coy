@@ -6,6 +6,7 @@ import fullscreenUrl from './fullscreen.png'
 
 import { StateContext, PageState } from './state'
 import { stages } from './stages'
+import { isDebug } from './debug'
 
 const Title = () => {
   const ctx = useContext(StateContext)
@@ -55,6 +56,8 @@ const Title = () => {
     }
   }
 
+  const debug = isDebug()
+
   return (
     <div
       style={{
@@ -75,7 +78,7 @@ const Title = () => {
           <option
             key={i}
             value={i}
-            disabled={i > ctx.maxStageId}
+            disabled={i > ctx.maxStageId && !debug}
             style={{
               fontFamily: 'DynaPuff, serif !important',
             }}
