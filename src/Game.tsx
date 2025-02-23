@@ -39,6 +39,7 @@ class GameContext {
   life: number
   lastMouseDown: number
   selectedId: number
+  selectedPoint?: { purinId: number; pointId: number }
 
   onGameStateChange: (s: GameState) => void
 
@@ -139,6 +140,14 @@ class GameContext {
         this.cctx.stroke()
       })
       this.cctx.restore()
+      if (this.selectedPoint) {
+        const sp = this.selectedPoint
+        const p = this.stage.purins[sp.purinId].points[sp.pointId]
+        this.cctx.save()
+        this.cctx.fillStyle = 'red'
+        this.cctx.fillRect(p[0] - 4, p[1] - 4, 9, 9)
+        this.cctx.stroke()
+      }
     }
     this.stage.purins.forEach((purin, i) => {
       if (!this.found[i]) {
@@ -215,6 +224,24 @@ class GameContext {
       return
     }
 
+    if (this.debug) {
+      this.selectedPoint = undefined
+      this.stage.purins.forEach((purin, purinId) =>
+        purin.points.forEach((pos, pointId) => {
+          const d = [pos[0] - p[0], pos[1] - p[1]]
+          if (Math.abs(d[0]) <= 4 && Math.abs(d[1]) <= 4) {
+            this.selectedPoint = { purinId, pointId }
+            console.log(this.selectedPoint)
+          }
+        }),
+      )
+      if (this.selectedPoint) {
+        this.selectedId = -1
+        this.render()
+        return
+      }
+    }
+
     const found = this.stage.purins.findIndex((purin) => purin.isInside(p))
     if (this.debug) {
       this.selectedId = found
@@ -275,6 +302,39 @@ class GameContext {
       )
       console.log(dumpPurins(this.stage.purins))
     }
+    const moveSelected = (x: number, y: number) => {
+      if (!this.debug) {
+        return
+      }
+      if (e.shiftKey) {
+        x *= 5
+        y *= 5
+      }
+      const limitPoint = (p: number[]) => {
+        if (p[0] < 0) p[0] = 0
+        else if (p[0] >= 1920) p[0] = 1920
+        if (p[1] < 0) p[1] = 0
+        else if (p[1] > 1080) p[1] = 1080
+      }
+      if (this.selectedPoint) {
+        const sp = this.selectedPoint
+        const p = this.stage.purins[sp.purinId].points[sp.pointId]
+        p[0] += x
+        p[1] += y
+        limitPoint(p)
+        this.render()
+        return
+      }
+      if (this.selectedId >= 0) {
+        this.stage.purins[this.selectedId].points.forEach((p) => {
+          p[0] += x
+          p[1] += y
+          limitPoint(p)
+        })
+        this.render()
+        return
+      }
+    }
     switch (e.code) {
       case 'Escape':
         this.page?.setPage(PageState.Title)
@@ -294,6 +354,18 @@ class GameContext {
           this.selectedId = -1
           this.render()
         }
+        return
+      case 'ArrowUp':
+        moveSelected(0, -1)
+        return
+      case 'ArrowDown':
+        moveSelected(0, 1)
+        return
+      case 'ArrowLeft':
+        moveSelected(-1, 0)
+        return
+      case 'ArrowRight':
+        moveSelected(1, 0)
         return
     }
   }
