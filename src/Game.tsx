@@ -4,6 +4,7 @@ import lifeUrl from './life.png'
 
 import GameOver, { preloads as preloadsGameOver } from './GameOver'
 import Cleared, { preloads as preloadsCleared } from './Cleared'
+import End, { preloads as preloadsEnd } from './End'
 import { StateContext, State, GwejState, PageState } from './state'
 import { Polygon } from './math/polygon'
 import { StageData, stages, dumpPurins } from './stages'
@@ -18,6 +19,7 @@ enum GameState {
   Playing = 0,
   GameOver = 1,
   Cleared = 2,
+  End = 3,
 }
 
 class GameContext {
@@ -288,7 +290,11 @@ class GameContext {
 
       if (this.found.every((b) => b)) {
         this.finished = true
-        this.onGameStateChange(GameState.Cleared)
+        this.onGameStateChange(
+          this.page.stageId >= stages.length - 1
+            ? GameState.End
+            : GameState.Cleared,
+        )
         this.render()
       }
     }
@@ -471,6 +477,7 @@ const Game = () => {
       </div>
       {gameState === GameState.GameOver && <GameOver />}
       {gameState === GameState.Cleared && <Cleared />}
+      {gameState === GameState.End && <End />}
     </>
   )
 }
@@ -480,4 +487,5 @@ export const preloads: string[] = [
   lifeUrl,
   ...preloadsGameOver,
   ...preloadsCleared,
+  ...preloadsEnd,
 ]

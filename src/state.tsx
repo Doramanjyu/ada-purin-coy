@@ -6,6 +6,7 @@ import { stages } from './stages'
 export enum PageState {
   Title = 0,
   Game = 1,
+  End = 2,
 }
 
 export enum GwejState {
