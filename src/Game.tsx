@@ -5,6 +5,7 @@ import lifeUrl from './life.png'
 import GameOver, { preloads as preloadsGameOver } from './GameOver'
 import Cleared, { preloads as preloadsCleared } from './Cleared'
 import End, { preloads as preloadsEnd } from './End'
+import Gwej, { preloads as preloadsGwej } from './Gwej'
 import { StateContext, State, GwejState, PageState } from './state'
 import { Polygon } from './math/polygon'
 import { StageData, stages, dumpPurins } from './stages'
@@ -478,6 +479,7 @@ const Game = () => {
       {gameState === GameState.GameOver && <GameOver />}
       {gameState === GameState.Cleared && <Cleared />}
       {gameState === GameState.End && <End />}
+      <Gwej />
     </>
   )
 }
@@ -488,4 +490,5 @@ export const preloads: string[] = [
   ...preloadsGameOver,
   ...preloadsCleared,
   ...preloadsEnd,
+  ...preloadsGwej,
 ]

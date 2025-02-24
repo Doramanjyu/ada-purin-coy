@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState, useRef, useMemo } from 'react'
 
 import Title, { preloads as preloadsTitle } from './Title'
 import Game, { preloads as preloadsGame } from './Game'
-import Gwej, { preloads as preloadsGwej } from './Gwej'
 import { StateContextProvider, StateContext, PageState } from './state'
 
 const Contents = () => {
@@ -11,11 +10,7 @@ const Contents = () => {
   const [currentPage, setCurrentPage] = useState(PageState.Title)
 
   useEffect(() => {
-    const preloads = ([] as string[]).concat(
-      preloadsTitle,
-      preloadsGame,
-      preloadsGwej,
-    )
+    const preloads = ([] as string[]).concat(preloadsTitle, preloadsGame)
     preloads.forEach(async (url) => {
       console.debug('preload', url)
       const img = new Image()
@@ -83,7 +78,6 @@ const Main = () => (
       }}
     >
       <Contents />
-      <Gwej />
     </div>
   </StateContextProvider>
 )
