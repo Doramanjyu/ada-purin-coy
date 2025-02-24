@@ -10,8 +10,8 @@ const GameOver = () => {
     ctx.setPage(PageState.Title)
     ctx.audioFilterer((actx: AudioContext, nodes: AudioNodes) => {
       const t = actx.currentTime + 0.05
-      nodes.gain.gain.setValueAtTime(0.5, t)
       nodes.filter.type = 'allpass'
+      nodes.gain.gain.setValueAtTime(1.0, t)
     })
   }
   const onLoad = (e: React.UIEvent<HTMLDivElement>) => {
@@ -19,9 +19,10 @@ const GameOver = () => {
     setTimeout(() => (target.style.opacity = '1'), 100)
     ctx.audioFilterer((actx: AudioContext, nodes: AudioNodes) => {
       const t = actx.currentTime + 0.05
-      nodes.filter.frequency.setValueAtTime(400, t)
-      nodes.gain.gain.setValueAtTime(1.0, t)
+      nodes.filter.Q.setValueAtTime(2.0, t)
+      nodes.filter.frequency.setValueAtTime(700, t)
       nodes.filter.type = 'highpass'
+      nodes.gain.gain.setValueAtTime(1.8, t)
     })
   }
   return (

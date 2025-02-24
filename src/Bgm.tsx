@@ -8,10 +8,14 @@ const Bgm = () => {
     const actx = new AudioContext()
     const src = actx.createBufferSource()
     const filter = actx.createBiquadFilter()
+    const gainBase = actx.createGain()
     const gain = actx.createGain()
-    filter.connect(gain)
+    filter.connect(gainBase)
+    gainBase.connect(gain)
     gain.connect(actx.destination)
-    gain.gain.setValueAtTime(0.5, actx.currentTime)
+
+    filter.type = 'allpass'
+    gainBase.gain.setValueAtTime(0.8, actx.currentTime)
 
     const filterer = (fn: AudioFilterer) =>
       fn(actx, {
