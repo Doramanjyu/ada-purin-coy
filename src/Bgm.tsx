@@ -22,7 +22,7 @@ const Bgm = () => {
 
     let loaded = false
     const load = async () => {
-      const resp = await fetch('public/sounds/bgm.mp3')
+      const resp = await fetch('sounds/bgm.mp3')
       const ab = await resp.arrayBuffer()
       const audio = await actx.decodeAudioData(ab)
 
