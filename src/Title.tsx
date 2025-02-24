@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react'
+import React, { useContext, useState, useEffect, useRef, useMemo } from 'react'
 
 import titleUrl from './title.png'
 import helpUrl from './help.png'
@@ -66,6 +66,17 @@ const Title = () => {
       window.screen.orientation.lock('landscape-primary')
     }
   }
+
+  const authorData = useMemo(
+    () =>
+      stages.reduce<{ [key: string]: string[] }>((acc, stage) => {
+        const stages = acc[stage.author] || []
+        stages.push(stage.name)
+        acc[stage.author] = stages
+        return acc
+      }, {}),
+    [stages],
+  )
 
   const debug = isDebug()
 
@@ -157,11 +168,11 @@ const Title = () => {
             <section>
               <h2>Stage design</h2>
               <div className="nameList">
-                {Array.from(new Set(stages.map((stage) => stage.author))).map(
-                  (name) => (
-                    <div key={name}>{name}</div>
-                  ),
-                )}
+                {Object.keys(authorData).map((name) => (
+                  <div key={name} title={authorData[name].join(', ')}>
+                    {name}
+                  </div>
+                ))}
               </div>
             </section>
             <section>
