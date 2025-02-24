@@ -279,6 +279,17 @@ class GameContext {
       this.foundSound.currentTime = 0
       this.foundSound.play()
 
+      if (this.found.every((b) => b)) {
+        this.finished = true
+        this.onGameStateChange(
+          this.page.stageId >= stages.length - 1
+            ? GameState.End
+            : GameState.Cleared,
+        )
+        this.render()
+        return
+      }
+
       this.page.setGwej(p[0] < 960 ? GwejState.Right : GwejState.Left)
       setTimeout(() => {
         if (!this.page || this.finished) {
@@ -288,16 +299,6 @@ class GameContext {
       }, 400)
 
       this.render()
-
-      if (this.found.every((b) => b)) {
-        this.finished = true
-        this.onGameStateChange(
-          this.page.stageId >= stages.length - 1
-            ? GameState.End
-            : GameState.Cleared,
-        )
-        this.render()
-      }
     }
   }
 
