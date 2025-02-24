@@ -62,11 +62,10 @@ export const StateContextProvider = ({ children }: Props) => {
   const [page, setPage] = useState(PageState.Title)
   const [gwej, setGwej] = useState(GwejState.None)
   const [maxStageId, setMaxStageIdFn] = usePersistState('maxStageId', 0)
-  const [stageId, setStageId] = useState(
-    Math.min(maxStageId, stages.length - 1),
-  )
+  const [stageId, setStageIdFn] = usePersistState('selectedStageId', 0)
   const [helpShown, setHelpShownBool] = useState(false)
   const setMaxStageId = (id: number) => setMaxStageIdFn(() => id)
+  const setStageId = (id: number) => setStageIdFn(() => id)
   const setHelpShown = () => setHelpShownBool(true)
   const [audioFilterer, setAudioFiltererRaw] = useState<
     (fn: AudioFilterer) => void
