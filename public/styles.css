@@ -142,7 +142,7 @@ select#stageSelect {
   position: absolute;
   background-color: #abf0d1;
   border: 5px solid #593d3c;
-  border-radius: 2%;
+  border-radius: 12px;
   padding: 20px;
   text-align: center;
   font-size: 1.5rem;
@@ -213,22 +213,31 @@ select#stageSelect {
 }
 
 @media only screen and (max-width: 1000px) {
-  select#stageSelect {
-    font-size: 1rem;
+  select#stageSelect,
+  .helpModal {
+    font-size: 1.2rem;
   }
+  .helpModal h1 {
+    font-size: 1.8rem;
+  }
+  .helpModal h2,
+  .stageInfo,
+  .stageInfo .stageTitle {
+    font-size: 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  select#stageSelect,
   .helpModal {
     font-size: 1rem;
   }
   .helpModal h1 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
-  .helpModal h2 {
-    font-size: 1.2rem;
-  }
-  .stageInfo {
-    font-size: 1.2rem;
-  }
+  .helpModal h2,
+  .stageInfo,
   .stageInfo .stageTitle {
-    font-size: 1.8rem;
+    font-size: 1rem;
   }
 }

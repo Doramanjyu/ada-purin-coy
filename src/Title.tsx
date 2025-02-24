@@ -22,7 +22,7 @@ const Title = () => {
     if (!helpModalRef.current) {
       return
     }
-    helpModalRef.current.style.inset = '50% 15%'
+    helpModalRef.current.style.inset = '50% 10%'
     setTimeout(() => setHelpOpen(false), 400)
     e.stopPropagation()
   }
@@ -37,7 +37,7 @@ const Title = () => {
         if (!helpModalRef.current) {
           return
         }
-        helpModalRef.current.style.inset = '5% 15%'
+        helpModalRef.current.style.inset = '5% 10%'
       }, 50)
     }
   }, [helpOpen])
@@ -130,7 +130,7 @@ const Title = () => {
           <div
             className="helpModal"
             style={{
-              inset: '50% 15%',
+              inset: '50% 10%',
             }}
             ref={helpModalRef}
           >
