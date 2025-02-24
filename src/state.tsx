@@ -17,6 +17,12 @@ export enum GwejState {
   Nggak = 4,
 }
 
+export type AudioNodes = {
+  gain: GainNode
+  filter: BiquadFilterNode
+}
+export type AudioFilterer = (actx: AudioContext, nodes: AudioNodes) => void
+
 export type State = {
   page: PageState
   setPage: (state: PageState) => void
@@ -28,6 +34,8 @@ export type State = {
   setStageId: (id: number) => void
   maxStageId: number
   setMaxStageId: (id: number) => void
+  audioFilterer: (fn: AudioFilterer) => void
+  setAudioFilterer: (fn: (fn: AudioFilterer) => void) => void
 }
 
 export const StateContext = createContext<State>({
@@ -41,6 +49,8 @@ export const StateContext = createContext<State>({
   setStageId: () => {},
   maxStageId: 0,
   setMaxStageId: () => {},
+  audioFilterer: () => {},
+  setAudioFilterer: () => {},
 })
 
 type Props = {
@@ -57,6 +67,11 @@ export const StateContextProvider = ({ children }: Props) => {
   const [helpShown, setHelpShownBool] = useState(false)
   const setMaxStageId = (id: number) => setMaxStageIdFn(() => id)
   const setHelpShown = () => setHelpShownBool(true)
+  const [audioFilterer, setAudioFiltererRaw] = useState<
+    (fn: AudioFilterer) => void
+  >(() => {})
+  const setAudioFilterer = (fn: (fn: AudioFilterer) => void) =>
+    setAudioFiltererRaw(() => fn)
 
   return (
     <StateContext.Provider
@@ -71,6 +86,8 @@ export const StateContextProvider = ({ children }: Props) => {
         setStageId,
         maxStageId,
         setMaxStageId,
+        audioFilterer,
+        setAudioFilterer,
       }}
     >
       {children}

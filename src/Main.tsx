@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState, useRef, useMemo } from 'react'
 
 import Title, { preloads as preloadsTitle } from './Title'
 import Game, { preloads as preloadsGame } from './Game'
+import Bgm from './Bgm'
 import { StateContextProvider, StateContext, PageState } from './state'
 
 const Contents = () => {
@@ -78,6 +79,7 @@ const Main = () => (
       }}
     >
       <Contents />
+      <Bgm />
     </div>
   </StateContextProvider>
 )
