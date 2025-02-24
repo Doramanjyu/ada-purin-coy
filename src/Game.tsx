@@ -109,10 +109,13 @@ class GameContext {
 
     this.wrongSound = new Audio()
     this.wrongSound.src = 'sounds/beep.mp3'
+    this.wrongSound.volume = 0.7
     this.boomSound = new Audio()
     this.boomSound.src = 'sounds/boom.mp3'
+    this.boomSound.volume = 0.5
     this.foundSound = new Audio()
     this.foundSound.src = 'sounds/found.mp3'
+    this.foundSound.volume = 0.7
 
     this.debug = isDebug()
   }
