@@ -1,7 +1,6 @@
 import React, { createContext, useState } from 'react'
 
 import { usePersistState } from './usePersistState'
-import { stages } from './stages'
 
 export enum PageState {
   Title = 0,
