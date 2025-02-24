@@ -22,6 +22,9 @@ const Title = () => {
     if (!helpModalRef.current) {
       return
     }
+    ctx.audioFilterer((actx: AudioContext) => {
+      actx.resume()
+    })
     helpModalRef.current.style.inset = '50% 10%'
     setTimeout(() => setHelpOpen(false), 400)
     e.stopPropagation()

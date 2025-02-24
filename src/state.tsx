@@ -18,6 +18,7 @@ export enum GwejState {
 }
 
 export type AudioNodes = {
+  src: AudioBufferSourceNode
   gain: GainNode
   filter: BiquadFilterNode
 }

@@ -15,6 +15,7 @@ const Bgm = () => {
 
     const filterer = (fn: AudioFilterer) =>
       fn(actx, {
+        src,
         gain,
         filter,
       })
@@ -40,6 +41,7 @@ const Bgm = () => {
       }
       src.disconnect()
       filter.disconnect()
+      actx.close()
     }
   }, [])
   return <></>
