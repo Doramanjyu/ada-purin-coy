@@ -4,7 +4,7 @@ import titleUrl from './title.png'
 import helpUrl from './help.png'
 import fullscreenUrl from './fullscreen.png'
 
-import { StateContext, PageState } from './state'
+import { StateContext, PageState, AudioNodes } from './state'
 import { stages } from './stages'
 import { isDebug } from './debug'
 
@@ -32,6 +32,14 @@ const Title = () => {
   const clickStopPropagation = (e: React.MouseEvent) => e.stopPropagation()
   const onChangeStage = (e: React.ChangeEvent<HTMLSelectElement>) =>
     ctx.setStageId(parseInt(e.target.value))
+
+  useEffect(() => {
+    ctx.audioFilterer((actx: AudioContext, nodes: AudioNodes) => {
+      const t = actx.currentTime + 0.05
+      nodes.filter.type = 'allpass'
+      nodes.gain.gain.setValueAtTime(1.0, t)
+    })
+  }, [])
 
   useEffect(() => {
     if (helpOpen) {

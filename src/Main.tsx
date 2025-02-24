@@ -68,6 +68,7 @@ const Contents = () => {
 
 const Main = () => (
   <StateContextProvider>
+    <Bgm />
     <div
       style={{
         position: 'relative',
@@ -79,7 +80,6 @@ const Main = () => (
       }}
     >
       <Contents />
-      <Bgm />
     </div>
   </StateContextProvider>
 )

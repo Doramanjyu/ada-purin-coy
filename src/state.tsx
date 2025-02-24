@@ -70,7 +70,7 @@ export const StateContextProvider = ({ children }: Props) => {
   const setHelpShown = () => setHelpShownBool(true)
   const [audioFilterer, setAudioFiltererRaw] = useState<
     (fn: AudioFilterer) => void
-  >(() => {})
+  >(() => () => {})
   const setAudioFilterer = (fn: (fn: AudioFilterer) => void) =>
     setAudioFiltererRaw(() => fn)
 

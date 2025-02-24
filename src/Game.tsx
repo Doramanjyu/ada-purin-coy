@@ -6,7 +6,7 @@ import GameOver, { preloads as preloadsGameOver } from './GameOver'
 import Cleared, { preloads as preloadsCleared } from './Cleared'
 import End, { preloads as preloadsEnd } from './End'
 import Gwej, { preloads as preloadsGwej } from './Gwej'
-import { StateContext, State, GwejState, PageState } from './state'
+import { StateContext, State, GwejState, PageState, AudioNodes } from './state'
 import { Polygon } from './math/polygon'
 import { StageData, stages, dumpPurins } from './stages'
 import { isDebug } from './debug'
@@ -394,6 +394,9 @@ const Game = () => {
     if (stageInfoRef.current) {
       stageInfoRef.current.style.bottom = '-12%'
     }
+    if (canvasRef.current) {
+      canvasRef.current.focus()
+    }
   }
   useEffect(() => {
     const nextStageId = page.stageId
@@ -411,6 +414,12 @@ const Game = () => {
   }, [stageId])
 
   useEffect(() => {
+    page.audioFilterer((actx: AudioContext, nodes: AudioNodes) => {
+      const t = actx.currentTime + 0.05
+      nodes.filter.type = 'allpass'
+      nodes.gain.gain.setValueAtTime(1.0, t)
+    })
+
     if (!canvasRef.current) {
       return
     }

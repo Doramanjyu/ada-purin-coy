@@ -6,14 +6,7 @@ import { StateContext, PageState, AudioNodes } from './state'
 
 const GameOver = () => {
   const ctx = useContext(StateContext)
-  const onClick = () => {
-    ctx.setPage(PageState.Title)
-    ctx.audioFilterer((actx: AudioContext, nodes: AudioNodes) => {
-      const t = actx.currentTime + 0.05
-      nodes.filter.type = 'allpass'
-      nodes.gain.gain.setValueAtTime(1.0, t)
-    })
-  }
+  const onClick = () => ctx.setPage(PageState.Title)
   const onLoad = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.currentTarget
     setTimeout(() => (target.style.opacity = '1'), 100)
