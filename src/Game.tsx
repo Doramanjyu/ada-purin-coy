@@ -117,6 +117,7 @@ class GameContext {
     this.foundSound.src = 'sounds/found.mp3'
     this.foundSound.volume = 0.7
 
+    this.canvas.focus()
     this.debug = isDebug()
   }
 
@@ -194,6 +195,7 @@ class GameContext {
       return
     }
     this.render()
+    this.canvas.focus()
   }
 
   onMouseDown(e: React.MouseEvent) {
