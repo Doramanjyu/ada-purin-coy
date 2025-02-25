@@ -166,6 +166,12 @@ const Title = () => {
             </section>
             <hr />
             <section>
+              <h2>Project</h2>
+              <div className="nameList">
+                <div>Ghost Purin's Mushketeers (Discord Fan Server)</div>
+              </div>
+            </section>
+            <section>
               <h2>Stage design</h2>
               <div className="nameList">
                 {Object.keys(authorData).map((name) => (
