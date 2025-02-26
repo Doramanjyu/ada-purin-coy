@@ -250,7 +250,7 @@ class GameContext {
       }
     }
 
-    const tolerance = (4 * this.canvas.width) / rect.width
+    const tolerance = Math.min(20, (4 * this.canvas.width) / rect.width)
     const found = this.stage.purins.findIndex((purin) =>
       purin.isInside(p, tolerance),
     )
