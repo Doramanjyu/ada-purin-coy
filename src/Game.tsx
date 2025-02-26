@@ -250,7 +250,10 @@ class GameContext {
       }
     }
 
-    const found = this.stage.purins.findIndex((purin) => purin.isInside(p))
+    const tolerance = (4 * this.canvas.width) / rect.width
+    const found = this.stage.purins.findIndex((purin) =>
+      purin.isInside(p, tolerance),
+    )
     if (this.debug) {
       this.selectedId = found
       this.render()
