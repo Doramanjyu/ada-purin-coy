@@ -1,5 +1,7 @@
 import React, { useEffect, useContext, useState, useRef } from 'react'
 
+import audioUrl from './audio.png'
+
 import { StateContext, AudioFilterer } from './state'
 
 const Bgm = () => {
@@ -68,9 +70,12 @@ const Bgm = () => {
   return (
     <>
       {audioBlocked && (
-        <div className="audioUnblocker" onClick={unblockAudio}>
-          Click to unblock the audio
-        </div>
+        <>
+          <div className="audioUnblocker" onClick={unblockAudio}>
+            <img src={audioUrl} style={{ display: 'block' }} />
+            <div>Click to unblock the audio</div>
+          </div>
+        </>
       )}
     </>
   )

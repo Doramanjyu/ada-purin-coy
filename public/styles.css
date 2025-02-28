@@ -221,9 +221,14 @@ select#stageSelect {
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 2rem;
+  font-size: 2.3rem;
   font-family: DynaPuff, serif;
   font-variation-settings: wdth 100;
+  flex-direction: column;
+}
+
+.audioUnblocker img {
+  width: 56px;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -236,8 +241,12 @@ select#stageSelect {
   }
   .helpModal h2,
   .stageInfo,
-  .stageInfo .stageTitle {
+  .stageInfo .stageTitle,
+  .audioUnblocker {
     font-size: 1.5rem;
+  }
+  .audioUnblocker img {
+    width: 48px;
   }
 }
 
@@ -251,7 +260,11 @@ select#stageSelect {
   }
   .helpModal h2,
   .stageInfo,
-  .stageInfo .stageTitle {
+  .stageInfo .stageTitle,
+  .audioUnblocker {
     font-size: 1rem;
+  }
+  .audioUnblocker img {
+    width: 32px;
   }
 }
