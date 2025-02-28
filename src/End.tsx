@@ -4,13 +4,20 @@ import allClearedUrl from './allcleared.png'
 import clapUrl from './purinclap.gif'
 
 import { StateContext, PageState, GwejState } from './state'
+import { useClickGuard } from './clickGuard'
 
 const End = () => {
   const ctx = useContext(StateContext)
-  const onClick = () => ctx.setPage(PageState.Title)
-  useEffect(() => {
-    ctx.setGwej(GwejState.None)
-  }, [])
+  const guard = useClickGuard(1000)
+
+  const onClick = () => {
+    if (!guard) {
+      return
+    }
+    ctx.setPage(PageState.Title)
+  }
+
+  useEffect(() => ctx.setGwej(GwejState.None), [])
   return (
     <div
       style={{

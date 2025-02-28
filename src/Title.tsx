@@ -7,10 +7,18 @@ import fullscreenUrl from './fullscreen.png'
 import { StateContext, PageState, AudioNodes } from './state'
 import { stages } from './stages'
 import { isDebug } from './debug'
+import { useClickGuard } from './clickGuard'
 
 const Title = () => {
   const ctx = useContext(StateContext)
-  const onClick = () => ctx.setPage(PageState.Game)
+  const guard = useClickGuard(1000)
+
+  const onClick = () => {
+    if (!guard) {
+      return
+    }
+    ctx.setPage(PageState.Game)
+  }
 
   const helpModalRef = useRef<HTMLDivElement>(null)
   const [helpOpen, setHelpOpen] = useState(!ctx.helpShown)

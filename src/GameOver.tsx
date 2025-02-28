@@ -3,10 +3,19 @@ import React, { useContext } from 'react'
 import gameoverUrl from './gameover.png'
 
 import { StateContext, PageState, AudioNodes } from './state'
+import { useClickGuard } from './clickGuard'
 
 const GameOver = () => {
   const ctx = useContext(StateContext)
-  const onClick = () => ctx.setPage(PageState.Title)
+  const guard = useClickGuard(1000)
+
+  const onClick = () => {
+    if (!guard) {
+      return
+    }
+    ctx.setPage(PageState.Title)
+  }
+
   const onLoad = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.currentTarget
     setTimeout(() => (target.style.opacity = '1'), 100)

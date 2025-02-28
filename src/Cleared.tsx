@@ -2,10 +2,16 @@ import React, { useContext, useEffect } from 'react'
 
 import { StateContext, PageState, GwejState } from './state'
 import { stages } from './stages'
+import { useClickGuard } from './clickGuard'
 
 const Cleared = () => {
   const ctx = useContext(StateContext)
+  const guard = useClickGuard(1000)
+
   const onClick = () => {
+    if (!guard) {
+      return
+    }
     ctx.setGwej(GwejState.None)
     if (ctx.stageId == stages.length - 1) {
       ctx.setPage(PageState.Title)
@@ -17,9 +23,8 @@ const Cleared = () => {
     }
     ctx.setPage(PageState.Game)
   }
-  useEffect(() => {
-    ctx.setGwej(GwejState.Both)
-  }, [])
+  useEffect(() => ctx.setGwej(GwejState.Both), [])
+
   return (
     <div
       style={{
