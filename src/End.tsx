@@ -28,15 +28,6 @@ const End = () => {
       onClick={onClick}
     >
       <img
-        src={allClearedUrl}
-        style={{
-          width: '100%',
-          position: 'absolute',
-          top: '10%',
-        }}
-        className="titleAnime"
-      />
-      <img
         src={clapUrl}
         style={{
           width: '40%',
@@ -44,6 +35,16 @@ const End = () => {
           bottom: 0,
           left: '30%',
         }}
+      />
+      <img
+        src={allClearedUrl}
+        style={{
+          width: '80%',
+          position: 'absolute',
+          bottom: '-5%',
+          left: '10%',
+        }}
+        className="titleAnime"
       />
     </div>
   )
