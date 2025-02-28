@@ -15,7 +15,7 @@ const Bgm = () => {
     gain.connect(actx.destination)
 
     filter.type = 'allpass'
-    gainBase.gain.setValueAtTime(0.8, actx.currentTime)
+    gainBase.gain.setValueAtTime(0.6, actx.currentTime)
 
     const filterer = (fn: AudioFilterer) =>
       fn(actx, {
@@ -27,7 +27,7 @@ const Bgm = () => {
 
     let loaded = false
     const load = async () => {
-      const resp = await fetch('sounds/bgm.mp3')
+      const resp = await fetch('sounds/purinsearch.mp3')
       const ab = await resp.arrayBuffer()
       const audio = await actx.decodeAudioData(ab)
 

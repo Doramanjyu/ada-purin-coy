@@ -182,6 +182,12 @@ const Title = () => {
               </div>
             </section>
             <section>
+              <h2>BGM</h2>
+              <div className="nameList">
+                <div>Skyranger</div>
+              </div>
+            </section>
+            <section>
               <h2>Game system</h2>
               <div className="nameList">
                 <div>doramanjyu</div>
