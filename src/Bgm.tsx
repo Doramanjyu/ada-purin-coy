@@ -23,7 +23,7 @@ const Bgm = () => {
     gain.connect(actx.destination)
 
     filter.type = 'allpass'
-    gainBase.gain.setValueAtTime(0.6, actx.currentTime)
+    gainBase.gain.setValueAtTime(0.5, actx.currentTime)
 
     const filterer = (fn: AudioFilterer) =>
       fn(actx, {
