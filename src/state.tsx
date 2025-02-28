@@ -1,6 +1,7 @@
 import React, { createContext, useState } from 'react'
 
 import { usePersistState } from './usePersistState'
+import { stages } from './stages'
 
 export enum PageState {
   Title = 0,
@@ -61,7 +62,7 @@ export const StateContextProvider = ({ children }: Props) => {
   const [page, setPage] = useState(PageState.Title)
   const [gwej, setGwej] = useState(GwejState.None)
   const [maxStageId, setMaxStageIdFn] = usePersistState('maxStageId', 0)
-  const [stageId, setStageIdFn] = usePersistState('selectedStageId', 0)
+  const [stageIdRaw, setStageIdFn] = usePersistState('selectedStageId', 0)
   const [helpShown, setHelpShownBool] = useState(false)
   const setMaxStageId = (id: number) => setMaxStageIdFn(() => id)
   const setStageId = (id: number) => setStageIdFn(() => id)
@@ -71,6 +72,7 @@ export const StateContextProvider = ({ children }: Props) => {
   >(() => () => {})
   const setAudioFilterer = (fn: (fn: AudioFilterer) => void) =>
     setAudioFiltererRaw(() => fn)
+  const stageId = Math.min(stageIdRaw, stages.length - 1)
 
   return (
     <StateContext.Provider
