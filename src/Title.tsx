@@ -31,6 +31,7 @@ const Title = () => {
       return
     }
     helpModalRef.current.style.inset = '50% 10%'
+    helpModalRef.current.style.padding = '0'
     setTimeout(() => setHelpOpen(false), 400)
     e.stopPropagation()
   }
@@ -54,6 +55,7 @@ const Title = () => {
           return
         }
         helpModalRef.current.style.inset = '5% 10%'
+        helpModalRef.current.style.padding = '20px'
       }, 50)
     }
   }, [helpOpen])
