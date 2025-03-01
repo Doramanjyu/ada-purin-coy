@@ -14,6 +14,7 @@ const End = () => {
     if (!guard) {
       return
     }
+    ctx.setStageId(0)
     ctx.setPage(PageState.Title)
   }
 
