@@ -81,9 +81,7 @@ export const StateContextProvider = ({ children }: Props) => {
       return
     }
     const stageLower = stageName.toLowerCase()
-    console.log('finding', stageLower)
     const id = stages.findIndex((s) => s.name.toLowerCase() === stageName)
-    console.log(id)
     if (id !== -1) {
       setStageId(id)
       setPage(PageState.Game)
