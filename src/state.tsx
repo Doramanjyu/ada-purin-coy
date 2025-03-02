@@ -80,8 +80,9 @@ export const StateContextProvider = ({ children }: Props) => {
     if (!stageName) {
       return
     }
-    const stageLower = stageName.toLowerCase()
-    const id = stages.findIndex((s) => s.name.toLowerCase() === stageName)
+    const unifyName = (s: string) => s.toLowerCase().replaceAll(/[-_]/g, ' ')
+    const stageUnified = unifyName(stageName)
+    const id = stages.findIndex((s) => unifyName(s.name) === stageUnified)
     if (id !== -1) {
       setStageId(id)
       setPage(PageState.Game)
