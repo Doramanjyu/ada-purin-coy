@@ -34,9 +34,9 @@ export const dumpPurins = (purins: Polygon[]): string => {
 const stagesNormal: StageData[] = [
   tutorial,
   onTheDesk,
-  underwater,
-  purinAndPurin,
   purinVillage,
+  purinAndPurin,
+  underwater,
   purinFactory,
 ]
 
