@@ -4,6 +4,7 @@ import tutorial from './tutorial'
 import purinFactory from './purin-factory'
 import purinVillage from './purin-village'
 import onTheDesk from './on-the-desk'
+import purinAndPurin from './purin-and-purin'
 import hbd from './hbd'
 
 export type StageData = {
@@ -32,6 +33,7 @@ export const dumpPurins = (purins: Polygon[]): string => {
 const stagesNormal: StageData[] = [
   tutorial,
   onTheDesk,
+  purinAndPurin,
   purinVillage,
   purinFactory,
 ]
