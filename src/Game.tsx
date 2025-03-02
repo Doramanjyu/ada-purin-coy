@@ -221,6 +221,16 @@ class GameContext {
     ]
 
     if (this.debug && e.ctrlKey) {
+      if (this.selectedPoint) {
+        this.stage.purins[this.selectedPoint.purinId].points.splice(
+          this.selectedPoint.pointId + 1,
+          0,
+          p,
+        )
+        this.selectedPoint.pointId++
+        this.render()
+        return
+      }
       if (this.selectedId < 0) {
         this.stage.purins.push(new Polygon([p]))
         this.selectedId = this.stage.purins.length - 1
