@@ -138,9 +138,15 @@ class GameContext {
       this.cctx.save()
       this.cctx.globalAlpha = 0.5
       this.cctx.drawImage(this.answerImage, 0, 0)
-      this.cctx.strokeStyle = 'red'
       this.stage.purins.forEach((purin, id) => {
-        this.cctx.lineWidth = this.selectedId === id ? 8 : 3
+        this.cctx.lineWidth = 3
+        this.cctx.strokeStyle = 'red'
+        if (this.selectedId === id) {
+          this.cctx.lineWidth = 8
+        }
+        if (this.selectedPoint?.purinId === id) {
+          this.cctx.lineWidth = 4
+        }
         this.cctx.beginPath()
         purin.draw(this.cctx)
         this.cctx.closePath()
@@ -153,7 +159,6 @@ class GameContext {
         this.cctx.save()
         this.cctx.fillStyle = 'red'
         this.cctx.fillRect(p[0] - 4, p[1] - 4, 9, 9)
-        this.cctx.stroke()
       }
     }
     this.stage.purins.forEach((purin, i) => {
