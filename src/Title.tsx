@@ -108,6 +108,7 @@ const Title = () => {
             key={i}
             value={i}
             disabled={i > ctx.maxStageId && !debug}
+            selected={ctx.stageId === i}
             style={{
               fontFamily: 'DynaPuff, serif !important',
             }}

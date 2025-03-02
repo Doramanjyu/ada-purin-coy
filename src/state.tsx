@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState, useEffect } from 'react'
 
 import { usePersistState } from './usePersistState'
 import { stages } from './stages'
@@ -73,6 +73,22 @@ export const StateContextProvider = ({ children }: Props) => {
   const setAudioFilterer = (fn: (fn: AudioFilterer) => void) =>
     setAudioFiltererRaw(() => fn)
   const stageId = Math.min(stageIdRaw, stages.length - 1)
+
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search)
+    const stageName = p.get('stage')
+    if (!stageName) {
+      return
+    }
+    const stageLower = stageName.toLowerCase()
+    console.log('finding', stageLower)
+    const id = stages.findIndex((s) => s.name.toLowerCase() === stageName)
+    console.log(id)
+    if (id !== -1) {
+      setStageId(id)
+      setPage(PageState.Game)
+    }
+  }, [window.location.search])
 
   return (
     <StateContext.Provider
