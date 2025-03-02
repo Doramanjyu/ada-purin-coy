@@ -3,6 +3,7 @@ import { Polygon } from '../math/polygon'
 import tutorial from './tutorial'
 import purinFactory from './purin-factory'
 import purinVillage from './purin-village'
+import onTheDesk from './on-the-desk'
 import hbd from './hbd'
 
 export type StageData = {
@@ -28,7 +29,12 @@ export const dumpPurins = (purins: Polygon[]): string => {
   return lines.join('\n')
 }
 
-const stagesNormal: StageData[] = [tutorial, purinVillage, purinFactory]
+const stagesNormal: StageData[] = [
+  tutorial,
+  onTheDesk,
+  purinVillage,
+  purinFactory,
+]
 
 const stagesMarchOnly: StageData[] = new Date().getMonth() === 2 ? [hbd] : []
 
