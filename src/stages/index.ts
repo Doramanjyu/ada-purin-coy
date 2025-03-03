@@ -1,6 +1,7 @@
 import { Polygon } from '../math/polygon'
 
 import hbd from './hbd'
+import mountain from './mountain'
 import onTheDesk from './on-the-desk'
 import purinAndPurin from './purin-and-purin'
 import purinFactory from './purin-factory'
@@ -35,6 +36,7 @@ const stagesNormal: StageData[] = [
   tutorial,
   onTheDesk,
   purinVillage,
+  mountain,
   purinAndPurin,
   underwater,
   purinFactory,
