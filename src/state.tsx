@@ -77,15 +77,19 @@ export const StateContextProvider = ({ children }: Props) => {
   useEffect(() => {
     const p = new URLSearchParams(window.location.search)
     const stageName = p.get('stage')
-    if (!stageName) {
-      return
+    if (stageName) {
+      const unifyName = (s: string) => s.toLowerCase().replaceAll(/[-_]/g, ' ')
+      const stageUnified = unifyName(stageName)
+      const id = stages.findIndex((s) => unifyName(s.name) === stageUnified)
+      if (id !== -1) {
+        setStageId(id)
+        setPage(PageState.Game)
+      }
     }
-    const unifyName = (s: string) => s.toLowerCase().replaceAll(/[-_]/g, ' ')
-    const stageUnified = unifyName(stageName)
-    const id = stages.findIndex((s) => unifyName(s.name) === stageUnified)
-    if (id !== -1) {
-      setStageId(id)
-      setPage(PageState.Game)
+    if (p.get('reset') === 'true') {
+      localStorage.clear()
+      window.history.pushState({}, document.title, window.location.pathname)
+      window.location.reload()
     }
   }, [window.location.search])
 
