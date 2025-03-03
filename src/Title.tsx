@@ -11,7 +11,7 @@ import { useClickGuard } from './clickGuard'
 
 const Title = () => {
   const ctx = useContext(StateContext)
-  const guard = useClickGuard(1000)
+  const guard = useClickGuard(200)
 
   const onClick = () => {
     if (!guard) {
