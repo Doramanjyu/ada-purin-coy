@@ -5,15 +5,21 @@ import clapUrl from './purinclap.gif'
 
 import { StateContext, PageState, GwejState } from './state'
 import { useClickGuard } from './clickGuard'
+import { useOnce } from './once'
 
 const End = () => {
   const ctx = useContext(StateContext)
   const guard = useClickGuard(200)
+  const [clicked, doClick] = useOnce()
 
   const onClick = () => {
     if (!guard) {
       return
     }
+    if (clicked) {
+      return
+    }
+    doClick()
     ctx.setStageId(0)
     ctx.setPage(PageState.Title)
   }

@@ -4,15 +4,21 @@ import gameoverUrl from './gameover.png'
 
 import { StateContext, PageState, AudioNodes } from './state'
 import { useClickGuard } from './clickGuard'
+import { useOnce } from './once'
 
 const GameOver = () => {
   const ctx = useContext(StateContext)
   const guard = useClickGuard(200)
+  const [clicked, doClick] = useOnce()
 
   const onClick = () => {
     if (!guard) {
       return
     }
+    if (clicked) {
+      return
+    }
+    doClick()
     ctx.setPage(PageState.Title)
   }
 

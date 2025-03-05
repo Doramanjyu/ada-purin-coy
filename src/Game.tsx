@@ -43,6 +43,7 @@ class GameContext {
   lastMouseDown: number
   selectedId: number
   selectedPoint?: { purinId: number; pointId: number }
+  enabled: boolean
 
   onGameStateChange: (s: GameState) => void
 
@@ -58,6 +59,7 @@ class GameContext {
     this.lastMouseDown = 0
     this.onGameStateChange = () => {}
     this.selectedId = -1
+    this.enabled = false
 
     setTimeout(() => {
       if (!this.page) {
@@ -211,6 +213,9 @@ class GameContext {
       return
     }
     if (this.finished) {
+      return
+    }
+    if (!this.enabled) {
       return
     }
     const now = Date.now()
@@ -475,6 +480,14 @@ const Game = () => {
     gctx.current.onGameStateChange = setGameState
   }, [setGameState])
 
+  const onTransitionEnd = () => {
+    if (!gctx.current || !canvasRef.current) {
+      return
+    }
+    if (canvasRef.current.style.opacity === '1') {
+      gctx.current.enabled = true
+    }
+  }
   const onMouseDown = (e: React.MouseEvent) => {
     gctx.current?.onMouseDown(e)
     hideStageInfo()
@@ -501,6 +514,7 @@ const Game = () => {
         }}
         onMouseDown={onMouseDown}
         onKeyDown={onKeyDown}
+        onTransitionEnd={onTransitionEnd}
       ></canvas>
       <div ref={stageInfoRef} className="stageInfo" onClick={hideStageInfo}>
         <div className="stageInfoText">

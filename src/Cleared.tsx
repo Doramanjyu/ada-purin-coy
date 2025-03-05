@@ -3,15 +3,21 @@ import React, { useContext, useEffect } from 'react'
 import { StateContext, PageState, GwejState } from './state'
 import { stages } from './stages'
 import { useClickGuard } from './clickGuard'
+import { useOnce } from './once'
 
 const Cleared = () => {
   const ctx = useContext(StateContext)
   const guard = useClickGuard(200)
+  const [clicked, doClick] = useOnce()
 
   const onClick = () => {
     if (!guard) {
       return
     }
+    if (clicked) {
+      return
+    }
+    doClick()
     ctx.setGwej(GwejState.None)
     if (ctx.stageId == stages.length - 1) {
       ctx.setPage(PageState.Title)
