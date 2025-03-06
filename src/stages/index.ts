@@ -5,6 +5,7 @@ import mountain from './mountain'
 import onTheDesk from './on-the-desk'
 import purinAndPurin from './purin-and-purin'
 import purinFactory from './purin-factory'
+import purinLand from './purinland'
 import purinVillage from './purin-village'
 import tutorial from './tutorial'
 import underwater from './underwater'
@@ -40,6 +41,7 @@ const stagesNormal: StageData[] = [
   purinAndPurin,
   underwater,
   purinFactory,
+  purinLand,
 ]
 
 const stagesMarchOnly: StageData[] = new Date().getMonth() === 2 ? [hbd] : []
