@@ -44,6 +44,7 @@ class GameContext {
   selectedId: number
   selectedPoint?: { purinId: number; pointId: number }
   enabled: boolean
+  gwejClearTimer?: ReturnType<typeof setTimeout>
 
   onGameStateChange: (s: GameState) => void
 
@@ -73,6 +74,7 @@ class GameContext {
       }
       this.finished = true
       this.onGameStateChange(GameState.GameOver)
+      this.page.setGwej(GwejState.None)
       this.render()
     }, stage.timeLimit)
 
@@ -197,6 +199,19 @@ class GameContext {
     }
   }
 
+  clearGwejLater(duration: number) {
+    if (this.gwejClearTimer) {
+      clearTimeout(this.gwejClearTimer)
+    }
+    this.gwejClearTimer = setTimeout(() => {
+      if (!this.page || this.finished) {
+        return
+      }
+      this.page.setGwej(GwejState.None)
+      this.gwejClearTimer = undefined
+    }, duration)
+  }
+
   tick() {
     if (!this.page) {
       return
@@ -288,17 +303,13 @@ class GameContext {
         this.boomSound.play()
         this.finished = true
         this.onGameStateChange(GameState.GameOver)
+        this.page.setGwej(GwejState.None)
         this.render()
         return
       }
 
       this.page.setGwej(GwejState.Nggak)
-      setTimeout(() => {
-        if (!this.page || this.finished) {
-          return
-        }
-        this.page.setGwej(GwejState.None)
-      }, nggakDuration)
+      this.clearGwejLater(nggakDuration)
 
       this.render()
     } else if (!this.found[found]) {
@@ -319,12 +330,7 @@ class GameContext {
       }
 
       this.page.setGwej(p[0] < 960 ? GwejState.Right : GwejState.Left)
-      setTimeout(() => {
-        if (!this.page || this.finished) {
-          return
-        }
-        this.page.setGwej(GwejState.None)
-      }, 400)
+      this.clearGwejLater(400)
 
       this.render()
     }
