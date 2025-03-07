@@ -150,7 +150,9 @@ select#stageSelect {
   font-family: DynaPuff, serif;
   font-variation-settings: wdth 100;
   color: #593d3c;
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
   transition-property: inset, padding;
   transition-duration: 0.5s;
 }
