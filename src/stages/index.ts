@@ -44,6 +44,12 @@ const stagesNormal: StageData[] = [
   purinLand,
 ]
 
-const stagesMarchOnly: StageData[] = new Date().getMonth() === 2 ? [hbd] : []
+const isMarch = () => {
+  const p = new URLSearchParams(window.location.search)
+  return !!p.get('march')
+}
+
+const stagesMarchOnly: StageData[] =
+  new Date().getMonth() === 2 || isMarch() ? [hbd] : []
 
 export const stages: StageData[] = stagesNormal.concat(stagesMarchOnly)
